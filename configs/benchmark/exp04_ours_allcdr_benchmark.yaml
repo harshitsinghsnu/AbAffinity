@@ -1,0 +1,6 @@
+name: ours_allcdr_benchmark
+description: "Ours | All-CDR | train 100% SAbDab -> test benchmark (full epochs)"
+mode: benchmark
+pooling: allcdr
+train_dataset: sabdab
+test_dataset: benchmark

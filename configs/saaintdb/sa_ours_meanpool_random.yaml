@@ -1,0 +1,4 @@
+name: sa_ours_meanpool_random
+pooling: meanpool
+split: random
+n_folds: 10

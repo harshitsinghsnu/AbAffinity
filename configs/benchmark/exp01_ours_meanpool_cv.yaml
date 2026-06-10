@@ -1,0 +1,6 @@
+name: ours_meanpool_cv
+description: "Ours (MutualTriStreamStrong) | mean-pool ESM-2 | 10-fold CV"
+mode: cv
+pooling: meanpool
+datasets: [sabdab, abbind, skempi]
+n_folds: 10

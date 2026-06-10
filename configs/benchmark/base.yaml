@@ -1,0 +1,34 @@
+# Shared defaults inherited by all experiment configs.
+# Override any field in an individual experiment YAML.
+defaults:
+  model: mutual_strong          # MutualTriStreamStrong (Ours)
+  seeds: [42, 114, 144, 314, 777]
+  hyperparams:
+    epochs: 50
+    patience: 10
+    batch_size: 32
+    learning_rate: 0.0001
+    weight_decay: 0.01
+    projected_size: 256
+    num_heads: 8
+    dropout: 0.1
+    n_layers: 2
+
+# Dataset -> (pairs_csv, embedding family) registry
+datasets:
+  sabdab:    {pairs: datasets/pairs_sabdab.csv,    family: natural}
+  abbind:    {pairs: datasets/pairs_abbind.csv,    family: mutation}
+  skempi:    {pairs: datasets/pairs_skempi.csv,    family: mutation}
+  benchmark: {pairs: datasets/pairs_benchmark.csv, family: natural}
+
+# Embedding family -> file, per pooling mode
+embeddings:
+  meanpool:
+    natural:  datasets/esm2_embeddings_natural_650M.pkl
+    mutation: datasets/esm2_embeddings_mutation_650M.pkl
+  allcdr:
+    natural:  experiments/cache/allcdr_natural_650M.pkl
+    mutation: experiments/cache/allcdr_mutation_650M.pkl
+  allcdrboth:
+    natural:  experiments/cache/allcdrboth_natural_650M.pkl
+    mutation: experiments/cache/allcdrboth_mutation_650M.pkl

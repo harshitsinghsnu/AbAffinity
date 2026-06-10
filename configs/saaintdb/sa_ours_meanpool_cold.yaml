@@ -1,0 +1,4 @@
+name: sa_ours_meanpool_cold
+pooling: meanpool
+split: cold
+n_folds: 10

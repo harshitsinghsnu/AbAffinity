@@ -1,0 +1,6 @@
+name: ours_meanpool_benchmark
+description: "Ours | mean-pool | train 100% SAbDab -> test benchmark (full epochs)"
+mode: benchmark
+pooling: meanpool
+train_dataset: sabdab
+test_dataset: benchmark

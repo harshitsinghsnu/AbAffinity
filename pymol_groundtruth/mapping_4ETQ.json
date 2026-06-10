@@ -1,0 +1,367 @@
+{
+ "pdb": "4ETQ",
+ "chains": {
+  "heavy": "H",
+  "light": "L",
+  "antigen": "C"
+ },
+ "residues": {
+  "heavy": [
+   {
+    "token": "Ser29",
+    "one": "S",
+    "resnum": 29,
+    "struct_resn": "S",
+    "match": true,
+    "attr_three": 0.44802035164485315,
+    "attr_two": 0.5487938946298756
+   },
+   {
+    "token": "Asn31",
+    "one": "N",
+    "resnum": 31,
+    "struct_resn": "N",
+    "match": true,
+    "attr_three": 0.598397485874531,
+    "attr_two": 0.3599515574307744
+   },
+   {
+    "token": "Phe32",
+    "one": "F",
+    "resnum": 32,
+    "struct_resn": "F",
+    "match": true,
+    "attr_three": 0.5540308147905986,
+    "attr_two": 0.48757631052208433
+   },
+   {
+    "token": "Trp34",
+    "one": "W",
+    "resnum": 34,
+    "struct_resn": "W",
+    "match": true,
+    "attr_three": 0.18679896345700506,
+    "attr_two": 0.29029696189290377
+   },
+   {
+    "token": "Met51",
+    "one": "M",
+    "resnum": 51,
+    "struct_resn": "M",
+    "match": true,
+    "attr_three": 0.10001956087371185,
+    "attr_two": 0.26332944477865344
+   },
+   {
+    "token": "Asp53",
+    "one": "D",
+    "resnum": 53,
+    "struct_resn": "D",
+    "match": true,
+    "attr_three": 0.3509190031479817,
+    "attr_two": 0.0
+   },
+   {
+    "token": "Ser55",
+    "one": "S",
+    "resnum": 55,
+    "struct_resn": "S",
+    "match": true,
+    "attr_three": 0.350509632162457,
+    "attr_two": 0.22659063677585375
+   },
+   {
+    "token": "Glu56",
+    "one": "E",
+    "resnum": 56,
+    "struct_resn": "E",
+    "match": true,
+    "attr_three": 0.5976958574402453,
+    "attr_two": 0.1762511853452873
+   },
+   {
+    "token": "Glu58",
+    "one": "E",
+    "resnum": 58,
+    "struct_resn": "E",
+    "match": true,
+    "attr_three": 0.6712372192240488,
+    "attr_two": 0.2908594824477991
+   },
+   {
+    "token": "Arg60",
+    "one": "R",
+    "resnum": 60,
+    "struct_resn": "R",
+    "match": true,
+    "attr_three": 0.4766268833761978,
+    "attr_two": 0.3028589517576172
+   },
+   {
+    "token": "Arg75",
+    "one": "R",
+    "resnum": 75,
+    "struct_resn": "R",
+    "match": true,
+    "attr_three": 0.34441809146600944,
+    "attr_two": 0.4594183855056356
+   },
+   {
+    "token": "Tyr102",
+    "one": "Y",
+    "resnum": 102,
+    "struct_resn": "Y",
+    "match": true,
+    "attr_three": 0.7539419653976772,
+    "attr_two": 0.2181113899981923
+   },
+   {
+    "token": "Arg103",
+    "one": "R",
+    "resnum": 103,
+    "struct_resn": "R",
+    "match": true,
+    "attr_three": 0.7740792167310446,
+    "attr_two": 0.16513887371127492
+   },
+   {
+    "token": "Asp105",
+    "one": "D",
+    "resnum": 105,
+    "struct_resn": "D",
+    "match": true,
+    "attr_three": 0.6466731008322385,
+    "attr_two": 0.1397666509343053
+   }
+  ],
+  "light": [
+   {
+    "token": "Ser31",
+    "one": "S",
+    "resnum": 31,
+    "struct_resn": "S",
+    "match": true,
+    "attr_three": 0.5209142868819705,
+    "attr_two": 0.30380908202147855
+   },
+   {
+    "token": "Trp91",
+    "one": "W",
+    "resnum": 91,
+    "struct_resn": "W",
+    "match": true,
+    "attr_three": 0.5288882227490869,
+    "attr_two": 0.039747000304935165
+   },
+   {
+    "token": "Thr92",
+    "one": "T",
+    "resnum": 92,
+    "struct_resn": "T",
+    "match": true,
+    "attr_three": 0.6020694434596869,
+    "attr_two": 0.010403896841046574
+   },
+   {
+    "token": "Tyr94",
+    "one": "Y",
+    "resnum": 94,
+    "struct_resn": "Y",
+    "match": true,
+    "attr_three": 0.7532157504658842,
+    "attr_two": 0.16791232834504585
+   }
+  ],
+  "antigen": [
+   {
+    "token": "Gln3",
+    "one": "Q",
+    "resnum": 3,
+    "struct_resn": "Q",
+    "match": true,
+    "attr_three": 0.3971606912916428,
+    "attr_two": 0.46532251803569785
+   },
+   {
+    "token": "Leu5",
+    "one": "L",
+    "resnum": 5,
+    "struct_resn": "L",
+    "match": true,
+    "attr_three": 0.38607487865048334,
+    "attr_two": 0.2648358952118186
+   },
+   {
+    "token": "Thr39",
+    "one": "T",
+    "resnum": 39,
+    "struct_resn": "T",
+    "match": true,
+    "attr_three": 0.3258209001272529,
+    "attr_two": 0.666298013755028
+   },
+   {
+    "token": "Gly40",
+    "one": "G",
+    "resnum": 40,
+    "struct_resn": "G",
+    "match": true,
+    "attr_three": 0.5974479000319121,
+    "attr_two": 0.3580896487800084
+   },
+   {
+    "token": "Lys41",
+    "one": "K",
+    "resnum": 41,
+    "struct_resn": "K",
+    "match": true,
+    "attr_three": 0.35020294795618856,
+    "attr_two": 0.5941244427237502
+   },
+   {
+    "token": "Arg44",
+    "one": "R",
+    "resnum": 44,
+    "struct_resn": "R",
+    "match": true,
+    "attr_three": 0.5031450890111514,
+    "attr_two": 0.6824123259816463
+   },
+   {
+    "token": "Lys108",
+    "one": "K",
+    "resnum": 108,
+    "struct_resn": "K",
+    "match": true,
+    "attr_three": 0.4130884225848692,
+    "attr_two": 0.7092938727721887
+   },
+   {
+    "token": "Asn145",
+    "one": "N",
+    "resnum": 145,
+    "struct_resn": "N",
+    "match": true,
+    "attr_three": 0.2392378385789387,
+    "attr_two": 0.5958152941694087
+   },
+   {
+    "token": "Ile174",
+    "one": "I",
+    "resnum": 174,
+    "struct_resn": "I",
+    "match": true,
+    "attr_three": 0.3016967946376307,
+    "attr_two": 0.4915876774057295
+   },
+   {
+    "token": "Asn175",
+    "one": "N",
+    "resnum": 175,
+    "struct_resn": "N",
+    "match": true,
+    "attr_three": 0.434505201697993,
+    "attr_two": 0.5690572921075243
+   },
+   {
+    "token": "His176",
+    "one": "H",
+    "resnum": 176,
+    "struct_resn": "H",
+    "match": true,
+    "attr_three": 0.43876905627342194,
+    "attr_two": 0.5459323194352305
+   },
+   {
+    "token": "Ser177",
+    "one": "S",
+    "resnum": 177,
+    "struct_resn": "S",
+    "match": true,
+    "attr_three": 0.2522464632378474,
+    "attr_two": 0.4196743296869381
+   },
+   {
+    "token": "Ser204",
+    "one": "S",
+    "resnum": 204,
+    "struct_resn": "S",
+    "match": true,
+    "attr_three": 0.2393817972239684,
+    "attr_two": 0.43840227423347317
+   },
+   {
+    "token": "Leu205",
+    "one": "L",
+    "resnum": 205,
+    "struct_resn": "L",
+    "match": true,
+    "attr_three": 0.42166871936861466,
+    "attr_two": 0.45459087072862453
+   },
+   {
+    "token": "Ile215",
+    "one": "I",
+    "resnum": 215,
+    "struct_resn": "I",
+    "match": true,
+    "attr_three": 0.7227300691530972,
+    "attr_two": 0.5713322769853025
+   },
+   {
+    "token": "Glu217",
+    "one": "E",
+    "resnum": 217,
+    "struct_resn": "E",
+    "match": true,
+    "attr_three": 0.5155541872657499,
+    "attr_two": 0.470318446070033
+   },
+   {
+    "token": "Tyr219",
+    "one": "Y",
+    "resnum": 219,
+    "struct_resn": "Y",
+    "match": true,
+    "attr_three": 0.18235024641924838,
+    "attr_two": 0.5796418917420035
+   },
+   {
+    "token": "Arg220",
+    "one": "R",
+    "resnum": 220,
+    "struct_resn": "R",
+    "match": true,
+    "attr_three": 0.3615815641549631,
+    "attr_two": 0.4953872195895615
+   },
+   {
+    "token": "Asn221",
+    "one": "N",
+    "resnum": 221,
+    "struct_resn": "N",
+    "match": true,
+    "attr_three": 0.6083772315979604,
+    "attr_two": 0.7853781062736069
+   },
+   {
+    "token": "Tyr223",
+    "one": "Y",
+    "resnum": 223,
+    "struct_resn": "Y",
+    "match": true,
+    "attr_three": 0.1893835355567673,
+    "attr_two": 0.47073295695308004
+   },
+   {
+    "token": "Lys224",
+    "one": "K",
+    "resnum": 224,
+    "struct_resn": "K",
+    "match": true,
+    "attr_three": 0.6242215348027621,
+    "attr_two": 0.751865600102293
+   }
+  ]
+ }
+}

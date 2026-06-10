@@ -1,0 +1,7 @@
+name: antigen_shuffle_cv
+description: "Ours | mean-pool | antigen embedding shuffled (random) | 10-fold CV"
+mode: cv
+pooling: meanpool
+ablation: shuffle_antigen
+datasets: [sabdab, abbind, skempi]
+n_folds: 10

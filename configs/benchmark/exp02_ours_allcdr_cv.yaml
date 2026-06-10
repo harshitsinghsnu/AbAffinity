@@ -1,0 +1,6 @@
+name: ours_allcdr_cv
+description: "Ours | All-CDR (H1+H2+H3) heavy pooling | 10-fold CV"
+mode: cv
+pooling: allcdr
+datasets: [sabdab, abbind, skempi]
+n_folds: 10

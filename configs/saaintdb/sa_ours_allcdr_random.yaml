@@ -1,0 +1,4 @@
+name: sa_ours_allcdr_random
+pooling: allcdr
+split: random
+n_folds: 10

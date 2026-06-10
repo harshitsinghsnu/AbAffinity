@@ -1,0 +1,19 @@
+[build-system]
+requires = ["setuptools>=64"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "agabgated"
+version = "1.0.0"
+description = "Gated tri-stream antibody-antigen binding-affinity prediction from sequence"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+dependencies = [
+    "numpy>=1.26", "pandas>=2.0", "scipy>=1.11", "matplotlib>=3.8",
+    "scikit-learn>=1.4", "torch>=2.1", "transformers>=4.40",
+    "captum>=0.7", "biopython>=1.83", "tqdm", "pyyaml",
+]
+
+[tool.setuptools.packages.find]
+include = ["agabgated*"]

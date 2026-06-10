@@ -1,0 +1,13 @@
+pdb,chain_role,chain_id,n_gt_residues,ours_gt_attr_gt0.4,twostream_gt_attr_gt0.4
+1VFB,heavy,B,12,10,3
+1VFB,light,A,10,9,4
+1VFB,antigen,C,9,3,6
+4ETQ,heavy,H,14,9,3
+4ETQ,light,L,4,4,0
+4ETQ,antigen,C,21,10,19
+5GRJ,heavy,H,15,10,5
+5GRJ,light,L,6,6,0
+5GRJ,antigen,A,19,16,15
+5Y9J,heavy,H,8,4,6
+5Y9J,light,L,4,4,1
+5Y9J,antigen,A,12,8,10

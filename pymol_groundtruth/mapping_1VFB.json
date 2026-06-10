@@ -1,0 +1,295 @@
+{
+ "pdb": "1VFB",
+ "chains": {
+  "heavy": "B",
+  "light": "A",
+  "antigen": "C"
+ },
+ "residues": {
+  "heavy": [
+   {
+    "token": "Thr30",
+    "one": "T",
+    "resnum": 30,
+    "struct_resn": "T",
+    "match": true,
+    "attr_three": 0.9180233434541163,
+    "attr_two": 0.08215810941649172
+   },
+   {
+    "token": "Gly31",
+    "one": "G",
+    "resnum": 31,
+    "struct_resn": "G",
+    "match": true,
+    "attr_three": 0.558973133698477,
+    "attr_two": 0.06408225051002539
+   },
+   {
+    "token": "Tyr32",
+    "one": "Y",
+    "resnum": 32,
+    "struct_resn": "Y",
+    "match": true,
+    "attr_three": 0.7356379110116074,
+    "attr_two": 0.0
+   },
+   {
+    "token": "Trp52",
+    "one": "W",
+    "resnum": 52,
+    "struct_resn": "W",
+    "match": true,
+    "attr_three": 0.37687353604469565,
+    "attr_two": 0.46711417004499683
+   },
+   {
+    "token": "Gly53",
+    "one": "G",
+    "resnum": 53,
+    "struct_resn": "G",
+    "match": true,
+    "attr_three": 0.24240636882139002,
+    "attr_two": 0.41293036755676105
+   },
+   {
+    "token": "Asp54",
+    "one": "D",
+    "resnum": 54,
+    "struct_resn": "D",
+    "match": true,
+    "attr_three": 0.6045860589388605,
+    "attr_two": 0.3499988765142144
+   },
+   {
+    "token": "Asn56",
+    "one": "N",
+    "resnum": 56,
+    "struct_resn": "N",
+    "match": true,
+    "attr_three": 0.4970996651944664,
+    "attr_two": 0.08294489206728468
+   },
+   {
+    "token": "Asp58",
+    "one": "D",
+    "resnum": 58,
+    "struct_resn": "D",
+    "match": true,
+    "attr_three": 0.5305529207814431,
+    "attr_two": 0.15544818072015684
+   },
+   {
+    "token": "Arg99",
+    "one": "R",
+    "resnum": 99,
+    "struct_resn": "R",
+    "match": true,
+    "attr_three": 0.8733545779475745,
+    "attr_two": 0.28020466559245777
+   },
+   {
+    "token": "Asp100",
+    "one": "D",
+    "resnum": 100,
+    "struct_resn": "D",
+    "match": true,
+    "attr_three": 0.8898122331193399,
+    "attr_two": 0.3434591246871579
+   },
+   {
+    "token": "Tyr101",
+    "one": "Y",
+    "resnum": 101,
+    "struct_resn": "Y",
+    "match": true,
+    "attr_three": 0.8900829647035887,
+    "attr_two": 0.4948301461578753
+   },
+   {
+    "token": "Arg102",
+    "one": "R",
+    "resnum": 102,
+    "struct_resn": "R",
+    "match": true,
+    "attr_three": 0.6396068721998639,
+    "attr_two": 0.295384149255078
+   }
+  ],
+  "light": [
+   {
+    "token": "His30",
+    "one": "H",
+    "resnum": 30,
+    "struct_resn": "H",
+    "match": true,
+    "attr_three": 0.5640996863396015,
+    "attr_two": 0.53341608449001
+   },
+   {
+    "token": "Tyr32",
+    "one": "Y",
+    "resnum": 32,
+    "struct_resn": "Y",
+    "match": true,
+    "attr_three": 0.5918784305262762,
+    "attr_two": 0.0
+   },
+   {
+    "token": "Tyr49",
+    "one": "Y",
+    "resnum": 49,
+    "struct_resn": "Y",
+    "match": true,
+    "attr_three": 0.6322076233429818,
+    "attr_two": 0.44999251911280697
+   },
+   {
+    "token": "Tyr50",
+    "one": "Y",
+    "resnum": 50,
+    "struct_resn": "Y",
+    "match": true,
+    "attr_three": 0.6361148465691637,
+    "attr_two": 0.5605069640335418
+   },
+   {
+    "token": "Thr52",
+    "one": "T",
+    "resnum": 52,
+    "struct_resn": "T",
+    "match": true,
+    "attr_three": 0.6478203709686121,
+    "attr_two": 0.06886956107197377
+   },
+   {
+    "token": "Tyr53",
+    "one": "Y",
+    "resnum": 53,
+    "struct_resn": "T",
+    "match": false,
+    "attr_three": 0.5595821906120781,
+    "attr_two": 0.26819038006185086
+   },
+   {
+    "token": "Phe91",
+    "one": "F",
+    "resnum": 91,
+    "struct_resn": "F",
+    "match": true,
+    "attr_three": 0.38118424610564206,
+    "attr_two": 0.27655651783625607
+   },
+   {
+    "token": "Trp92",
+    "one": "W",
+    "resnum": 92,
+    "struct_resn": "W",
+    "match": true,
+    "attr_three": 0.40369506094139357,
+    "attr_two": 0.19377522161574884
+   },
+   {
+    "token": "Ser93",
+    "one": "S",
+    "resnum": 93,
+    "struct_resn": "S",
+    "match": true,
+    "attr_three": 0.6376932216651694,
+    "attr_two": 0.2610634148576357
+   },
+   {
+    "token": "Thr94",
+    "one": "T",
+    "resnum": 94,
+    "struct_resn": "T",
+    "match": true,
+    "attr_three": 0.7655711296774104,
+    "attr_two": 0.4320001596787933
+   }
+  ],
+  "antigen": [
+   {
+    "token": "Asp18",
+    "one": "D",
+    "resnum": 18,
+    "struct_resn": "D",
+    "match": true,
+    "attr_three": 0.35639983022002353,
+    "attr_two": 0.43446711736230725
+   },
+   {
+    "token": "Asp19",
+    "one": "D",
+    "resnum": 19,
+    "struct_resn": "N",
+    "match": false,
+    "attr_three": 0.3705605047582996,
+    "attr_two": 0.21941514783677976
+   },
+   {
+    "token": "Gly22",
+    "one": "G",
+    "resnum": 22,
+    "struct_resn": "G",
+    "match": true,
+    "attr_three": 0.39178883722366226,
+    "attr_two": 0.39342967951016516
+   },
+   {
+    "token": "Ser24",
+    "one": "S",
+    "resnum": 24,
+    "struct_resn": "S",
+    "match": true,
+    "attr_three": 0.4326985469668164,
+    "attr_two": 0.6002487662137467
+   },
+   {
+    "token": "Gly26",
+    "one": "G",
+    "resnum": 26,
+    "struct_resn": "G",
+    "match": true,
+    "attr_three": 0.5567478117632372,
+    "attr_two": 0.7345419521548621
+   },
+   {
+    "token": "Gly102",
+    "one": "G",
+    "resnum": 102,
+    "struct_resn": "G",
+    "match": true,
+    "attr_three": 0.4345527491984155,
+    "attr_two": 0.4127030646617557
+   },
+   {
+    "token": "Lys116",
+    "one": "K",
+    "resnum": 116,
+    "struct_resn": "K",
+    "match": true,
+    "attr_three": 0.24021616923240918,
+    "attr_two": 0.47381806152992595
+   },
+   {
+    "token": "Gln121",
+    "one": "Q",
+    "resnum": 121,
+    "struct_resn": "Q",
+    "match": true,
+    "attr_three": 0.33143292043146494,
+    "attr_two": 0.37666376831135656
+   },
+   {
+    "token": "Leu129",
+    "one": "L",
+    "resnum": 129,
+    "struct_resn": "L",
+    "match": true,
+    "attr_three": 0.1518164504134519,
+    "attr_two": 0.6356836927071862
+   }
+  ]
+ }
+}

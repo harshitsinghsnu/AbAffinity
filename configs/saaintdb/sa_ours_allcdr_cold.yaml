@@ -1,0 +1,4 @@
+name: sa_ours_allcdr_cold
+pooling: allcdr
+split: cold
+n_folds: 10

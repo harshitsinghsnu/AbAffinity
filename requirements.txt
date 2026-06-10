@@ -1,0 +1,19 @@
+# Core (notebooks reproduce from these alone)
+numpy==1.26.4
+pandas==2.3.0
+scipy==1.15.0
+matplotlib==3.10.0
+scikit-learn==1.6.1
+
+# Model training + features (full reproduction)
+torch==2.2.1            # install the build matching your CUDA, e.g. +cu121
+transformers==4.47.1    # ESM-2 (facebook/esm2_t33_650M_UR50D)
+captum==0.8.0           # integrated-gradients attribution
+
+# Structure / numbering utilities
+biopython==1.85         # PDB parsing, structure-based baseline
+ANARCI==2026.2          # IMGT CDR numbering (All-CDR pooling)
+
+# Convenience
+tqdm>=4.66
+pyyaml>=6.0

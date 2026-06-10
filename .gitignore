@@ -1,0 +1,25 @@
+# caches / embeddings (regenerate with agabgated/data_prep + sota_comparison/precompute_*)
+*.pkl
+*.pt
+*.pth
+experiments/cache/
+sota_comparison/pdb_cache/
+sota_comparison/structure_descriptors.csv
+pymol_groundtruth/pdb/
+pymol_groundtruth/pdb_cache/
+
+# pymol sessions (large; regenerate from the .pml)
+*.pse
+
+# python
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+.venv/
+build/
+dist/
+*.egg-info/
+
+# os
+.DS_Store
+Thumbs.db
