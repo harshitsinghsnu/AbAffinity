@@ -6,16 +6,16 @@ chains (IMGT L1/L2/L3 + H1/H2/H3 via ANARCI), antigen stays mean-pool.
 Compare against heavy-only All-CDR and mean-pool.
 
 Outputs:
-  experiments/cache/allcdrboth_natural_650M.pkl
-  experiments/cache/allcdrboth_mutation_650M.pkl
+  data/allcdrboth_natural_650M.pkl
+  data/allcdrboth_mutation_650M.pkl
 """
 import os, sys, pickle, gc
 import numpy as np
 from Bio import SeqIO
-HERE=os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+HERE=os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 sys.path.insert(0,HERE)
 from agabgated.utils.main_symmetric_mean import load_data
-CACHE=os.path.join(HERE,'experiments','cache'); os.makedirs(CACHE,exist_ok=True)
+CACHE=os.path.join(HERE,'data'); os.makedirs(CACHE,exist_ok=True)
 
 # IMGT CDR ranges are identical position windows for H and L chains
 IMGT={*range(27,39),*range(56,66),*range(105,118)}
@@ -37,7 +37,7 @@ def cdr_positions(seq):
     return sorted(set(o)) if o else list(range(26,36))
 
 seqs={}
-for fn in ['datasets/seq_natural.fasta','datasets/seq.fasta']:
+for fn in ['data/seq_natural.fasta','data/seq.fasta']:
     for r in SeqIO.parse(os.path.join(HERE,fn),'fasta'): seqs.setdefault(r.id,str(r.seq))
 print(f"{len(seqs)} sequences")
 
@@ -58,18 +58,18 @@ def build(per_res_path, mean_path, hl_ids, out_name):
     del pr,mean,comb; gc.collect()
 
 # natural: sabdab heavy+light (+benchmark)
-df_sab=load_data(os.path.join(HERE,'datasets/pairs_sabdab.csv'))
-df_ben=load_data(os.path.join(HERE,'datasets/pairs_benchmark.csv'))
+df_sab=load_data(os.path.join(HERE,'data/pairs_sabdab.csv'))
+df_ben=load_data(os.path.join(HERE,'data/pairs_benchmark.csv'))
 nat_ids=set(df_sab['heavy_id'])|set(df_sab['light_id'])|set(df_ben['heavy_id'])|set(df_ben['light_id'])
 print("\n[natural] heavy+light")
-build(os.path.join(HERE,'datasets/esm2_per_residue_embeddings_natural_650M.pkl'),
-      os.path.join(HERE,'datasets/esm2_embeddings_natural_650M.pkl'),nat_ids,'allcdrboth_natural_650M.pkl')
+build(os.path.join(HERE,'data/esm2_per_residue_embeddings_natural_650M.pkl'),
+      os.path.join(HERE,'data/esm2_embeddings_natural_650M.pkl'),nat_ids,'allcdrboth_natural_650M.pkl')
 
 # mutation: abbind+skempi heavy+light
-df_abb=load_data(os.path.join(HERE,'datasets/pairs_abbind.csv'))
-df_ske=load_data(os.path.join(HERE,'datasets/pairs_skempi.csv'))
+df_abb=load_data(os.path.join(HERE,'data/pairs_abbind.csv'))
+df_ske=load_data(os.path.join(HERE,'data/pairs_skempi.csv'))
 mut_ids=set(df_abb['heavy_id'])|set(df_abb['light_id'])|set(df_ske['heavy_id'])|set(df_ske['light_id'])
 print("\n[mutation] heavy+light")
-build(os.path.join(HERE,'datasets/esm2_per_residue_embeddings_mutation_650M.pkl'),
-      os.path.join(HERE,'datasets/esm2_embeddings_mutation_650M.pkl'),mut_ids,'allcdrboth_mutation_650M.pkl')
+build(os.path.join(HERE,'data/esm2_per_residue_embeddings_mutation_650M.pkl'),
+      os.path.join(HERE,'data/esm2_embeddings_mutation_650M.pkl'),mut_ids,'allcdrboth_mutation_650M.pkl')
 print("\nDone.")

@@ -13,7 +13,7 @@ Outputs -> experiments/results_allcdr_stats/
 import os, sys
 import numpy as np, pandas as pd
 from scipy.stats import pearsonr, spearmanr
-HERE=os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+HERE=os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 OUT=os.path.join(HERE,'experiments','results_allcdr_stats'); os.makedirs(OUT,exist_ok=True)
 rng=np.random.default_rng(0)
 
@@ -74,10 +74,10 @@ sys.path.insert(0,HERE)
 from agabgated.models.mutual_strong import MutualTriStreamStrong
 DEVICE='cuda' if torch.cuda.is_available() else 'cpu'
 ADV=os.path.join(HERE,'advanced_results')
-df=pd.read_csv(os.path.join(HERE,'datasets/formatted_aayl51_benchmarking_data.csv')); df['pKD']=df['Y'].astype(float)
+df=pd.read_csv(os.path.join(HERE,'data/formatted_aayl51_benchmarking_data.csv')); df['pKD']=df['Y'].astype(float)
 df['heavy_id']=[f'aayl51_H_{i:05d}' for i in range(len(df))]; df['light_id']='aayl51_L_00000'; df['antigen_id']='aayl51_Ag_00000'
 with open(os.path.join(ADV,'aayl51_allcdr_embeddings.pkl'),'rb') as f: cdr=pickle.load(f)
-with open(os.path.join(HERE,'datasets/zf_embeddings/aayl51_embeddings.pkl'),'rb') as f: raw=pickle.load(f)
+with open(os.path.join(HERE,'data/zf_embeddings/aayl51_embeddings.pkl'),'rb') as f: raw=pickle.load(f)
 emb={f'aayl51_H_{i:05d}':cdr[df.iloc[i]['heavy']] for i in range(len(df))}; emb['aayl51_L_00000']=raw['light'][0]; emb['aayl51_Ag_00000']=raw['antigen'][0]
 ck=torch.load(os.path.join(ADV,'allcdr_indomain_model.pt'),map_location=DEVICE); cfg=ck.get('config',{}); lo,hi=ck['pkd_bounds']
 m=MutualTriStreamStrong(esm_dim=1280,projected_size=cfg.get('projected_size',256),num_heads=cfg.get('num_heads',8),dropout=cfg.get('dropout',0.1),n_layers=cfg.get('n_layers',2),device=DEVICE).to(DEVICE)

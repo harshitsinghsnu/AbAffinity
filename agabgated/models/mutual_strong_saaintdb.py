@@ -362,9 +362,9 @@ if __name__ == '__main__':
 
     parser = argparse.ArgumentParser(
         description='MutualTriStreamStrong — SAaIntDB 10-fold CV')
-    parser.add_argument('--csv',        default='datasets/saaintdb_with_antigen_names.csv',
+    parser.add_argument('--csv',        default='data/saaintdb_with_antigen_names.csv',
                         help='Path to SAaIntDB CSV')
-    parser.add_argument('--cache',      default='datasets/esm2_embeddings_saaintdb_650M.pkl',
+    parser.add_argument('--cache',      default='data/esm2_embeddings_saaintdb_650M.pkl',
                         help='Pre-computed ESM-2 embedding cache')
     parser.add_argument('--output_dir', default=None,
                         help='Output directory (default: results_mutual_strong_saaintdb[_cold])')

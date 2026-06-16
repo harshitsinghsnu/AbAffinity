@@ -1,19 +1,18 @@
-# Core (notebooks reproduce from these alone)
+# Exact versions used for all reported experiments (see environment.yml / paper freeze).
+# torch is the CUDA 12.1 build:
+#   pip install torch==2.2.1 --index-url https://download.pytorch.org/whl/cu121
+torch==2.2.1
 numpy==1.26.4
-pandas==2.3.0
-scipy==1.15.0
-matplotlib==3.10.0
+pandas==2.3.3
+scipy==1.13.1
 scikit-learn==1.6.1
-
-# Model training + features (full reproduction)
-torch==2.2.1            # install the build matching your CUDA, e.g. +cu121
-transformers==4.47.1    # ESM-2 (facebook/esm2_t33_650M_UR50D)
-captum==0.8.0           # integrated-gradients attribution
-
-# Structure / numbering utilities
-biopython==1.85         # PDB parsing, structure-based baseline
-ANARCI==2026.2          # IMGT CDR numbering (All-CDR pooling)
-
-# Convenience
-tqdm>=4.66
-pyyaml>=6.0
+matplotlib==3.10.8
+transformers==4.47.1
+tokenizers==0.21.4
+huggingface-hub==0.36.2
+captum==0.8.0
+biopython==1.84
+ANARCI==2026.2.13.2
+pyyaml==6.0.2
+tqdm==4.66.4
+py3Dmol

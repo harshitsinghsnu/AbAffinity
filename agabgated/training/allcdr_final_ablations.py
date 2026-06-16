@@ -11,7 +11,7 @@ All-CDR adopted as the FINAL model. Produces, multi-seed (3 seeds), 10-fold CV:
   3. All-CDR out-of-fold mutational-impact predictions (SKEMPI, AbBind)
      -> experiments/results/allcdr_mutational_preds_{skempi,abbind}.csv
 
-Uses cached embeddings (experiments/cache/allcdr_*.pkl + datasets/esm2_embeddings_*).
+Uses cached embeddings (data/allcdr_*.pkl + data/esm2_embeddings_*).
 """
 import os, sys, pickle, types
 import numpy as np, pandas as pd, torch
@@ -20,7 +20,7 @@ from torch.utils.data import Dataset, DataLoader
 from scipy.stats import pearsonr, spearmanr
 import warnings; warnings.filterwarnings('ignore')
 
-HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+HERE = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 sys.path.insert(0, HERE)
 from agabgated.models.mutual_strong import MutualTriStreamStrong, GatedCrossAttention
 from agabgated.models.mutual_strong_saaintdb import get_fold_splits
@@ -28,14 +28,14 @@ from agabgated.utils.main_symmetric_mean import load_data, setup_reproducibility
 
 DEVICE = 'cuda' if torch.cuda.is_available() else 'cpu'
 RES = os.path.join(HERE, 'experiments', 'results'); os.makedirs(RES, exist_ok=True)
-CACHE = os.path.join(HERE, 'experiments', 'cache')
+CACHE = os.path.join(HERE, 'data')
 SEEDS = [42, 114, 144]
 HP = dict(epochs=50, patience=10, batch_size=32, lr=1e-4, wd=0.01,
           projected_size=256, num_heads=8, dropout=0.1, n_layers=2)
 
-DS = {'sabdab': ('datasets/pairs_sabdab.csv', 'natural'),
-      'abbind': ('datasets/pairs_abbind.csv', 'mutation'),
-      'skempi': ('datasets/pairs_skempi.csv', 'mutation')}
+DS = {'sabdab': ('data/pairs_sabdab.csv', 'natural'),
+      'abbind': ('data/pairs_abbind.csv', 'mutation'),
+      'skempi': ('data/pairs_skempi.csv', 'mutation')}
 
 # ── embedding caches ─────────────────────────────────────────────────────────
 _EMB = {}
@@ -43,7 +43,7 @@ def emb(pooling, family):
     key = (pooling, family)
     if key in _EMB: return _EMB[key]
     path = (os.path.join(CACHE, f'allcdr_{family}_650M.pkl') if pooling == 'allcdr'
-            else os.path.join(HERE, f'datasets/esm2_embeddings_{family}_650M.pkl'))
+            else os.path.join(HERE, f'data/esm2_embeddings_{family}_650M.pkl'))
     with open(path, 'rb') as f: _EMB[key] = pickle.load(f)
     return _EMB[key]
 

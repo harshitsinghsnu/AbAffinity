@@ -6,19 +6,19 @@ and mutation datasets, so the multi-seed runner can load small caches instead of
 the 5 GB per-residue files each time.
 
 Outputs:
-  experiments/cache/allcdr_natural_650M.pkl   (heavy=CDR-pool, light/antigen=mean-pool)
-  experiments/cache/allcdr_mutation_650M.pkl
+  data/allcdr_natural_650M.pkl   (heavy=CDR-pool, light/antigen=mean-pool)
+  data/allcdr_mutation_650M.pkl
 """
 import os, sys, pickle, gc
 import numpy as np
 from Bio import SeqIO
 
-HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))  # 3_stream/
+HERE = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))  # 3_stream/
 sys.path.insert(0, HERE)
 import pandas as pd
 from agabgated.utils.main_symmetric_mean import load_data
 
-CACHE = os.path.join(HERE, 'experiments', 'cache')
+CACHE = os.path.join(HERE, 'data')
 os.makedirs(CACHE, exist_ok=True)
 
 IMGT = {*range(27, 39), *range(56, 66), *range(105, 118)}
@@ -43,7 +43,7 @@ def cdr_positions(seq):
 
 # sequences (both fasta cover everything)
 seqs = {}
-for fn in ['datasets/seq_natural.fasta', 'datasets/seq.fasta']:
+for fn in ['data/seq_natural.fasta', 'data/seq.fasta']:
     for r in SeqIO.parse(os.path.join(HERE, fn), 'fasta'):
         seqs.setdefault(r.id, str(r.seq))
 print(f"{len(seqs)} sequences loaded")
@@ -69,20 +69,20 @@ def build(per_res_path, mean_path, heavy_ids, out_name):
     del pr, mean, comb; gc.collect()
 
 # Natural: sabdab + benchmark
-df_sab = load_data(os.path.join(HERE, 'datasets/pairs_sabdab.csv'))
-df_ben = load_data(os.path.join(HERE, 'datasets/pairs_benchmark.csv'))
+df_sab = load_data(os.path.join(HERE, 'data/pairs_sabdab.csv'))
+df_ben = load_data(os.path.join(HERE, 'data/pairs_benchmark.csv'))
 print("\n[natural] sabdab + benchmark")
-build(os.path.join(HERE, 'datasets/esm2_per_residue_embeddings_natural_650M.pkl'),
-      os.path.join(HERE, 'datasets/esm2_embeddings_natural_650M.pkl'),
+build(os.path.join(HERE, 'data/esm2_per_residue_embeddings_natural_650M.pkl'),
+      os.path.join(HERE, 'data/esm2_embeddings_natural_650M.pkl'),
       set(df_sab['heavy_id']) | set(df_ben['heavy_id']),
       'allcdr_natural_650M.pkl')
 
 # Mutation: abbind + skempi
-df_abb = load_data(os.path.join(HERE, 'datasets/pairs_abbind.csv'))
-df_ske = load_data(os.path.join(HERE, 'datasets/pairs_skempi.csv'))
+df_abb = load_data(os.path.join(HERE, 'data/pairs_abbind.csv'))
+df_ske = load_data(os.path.join(HERE, 'data/pairs_skempi.csv'))
 print("\n[mutation] abbind + skempi")
-build(os.path.join(HERE, 'datasets/esm2_per_residue_embeddings_mutation_650M.pkl'),
-      os.path.join(HERE, 'datasets/esm2_embeddings_mutation_650M.pkl'),
+build(os.path.join(HERE, 'data/esm2_per_residue_embeddings_mutation_650M.pkl'),
+      os.path.join(HERE, 'data/esm2_embeddings_mutation_650M.pkl'),
       set(df_abb['heavy_id']) | set(df_ske['heavy_id']),
       'allcdr_mutation_650M.pkl')
 

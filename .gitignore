@@ -1,15 +1,18 @@
-# caches / embeddings (regenerate with agabgated/data_prep + sota_comparison/precompute_*)
-*.pkl
-*.pt
-*.pth
-experiments/cache/
-sota_comparison/pdb_cache/
-sota_comparison/structure_descriptors.csv
-pymol_groundtruth/pdb/
-pymol_groundtruth/pdb_cache/
 
-# pymol sessions (large; regenerate from the .pml)
+*.pth
 *.pse
+
+# … except the prebuilt artifacts we ship so the model runs out-of-the-box
+!data/allcdr_natural_650M.pkl
+!data/allcdr_mutation_650M.pkl
+!data/esm2_embeddings_saaintdb_650M.pkl
+!data/saaintdb_heavy_cdr_embeddings.pkl
+
+
+# Generated outputs (never committed)
+results/
+experiments/
+cache/
 
 # python
 __pycache__/

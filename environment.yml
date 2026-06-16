@@ -1,18 +1,38 @@
+# Exact environment used for all reported SAaIntDB and MVSF-AB (SAbDab / AB-Bind /
+# SKEMPI / benchmark) experiments. Pin these for bit-identical results.
+#
+#   conda env create -f environment.yml
+#   conda activate agabgated
+#   pip install -e .
+#
+# torch is the CUDA 12.1 build; install it from the matching index:
+#   pip install torch==2.2.1 --index-url https://download.pytorch.org/whl/cu121
+#
+# Note on CDR numbering: ANARCI (IMGT scheme) is pinned below, but HMMER is NOT part
+# of this environment - exactly as in our runs. ANARCI's hmmscan step is therefore
+# inactive and the heavy-chain CDR pooler uses its motif-based fallback (see the
+# Methods: "IMGT numbering where available; motif-based fallback when numbering
+# failed"). The prebuilt embedding caches shipped in data/ were generated under this
+# exact configuration, so loading them reproduces the reported numbers without
+# re-running ANARCI.
 name: agabgated
-channels: [pytorch, conda-forge, defaults]
+channels: [conda-forge, defaults]
 dependencies:
-  - python=3.10
-  - numpy=1.26
-  - pandas=2.3
-  - scipy=1.15
-  - matplotlib=3.10
-  - scikit-learn=1.6
+  - python=3.10.20
   - pip
   - pip:
-      - torch==2.2.1
+      - torch==2.2.1               # CUDA 12.1 build (see index-url note above)
+      - numpy==1.26.4
+      - pandas==2.3.3
+      - scipy==1.13.1
+      - scikit-learn==1.6.1
+      - matplotlib==3.10.8
       - transformers==4.47.1
+      - tokenizers==0.21.4
+      - huggingface-hub==0.36.2
       - captum==0.8.0
-      - biopython==1.85
-      - ANARCI==2026.2
-      - tqdm
-      - pyyaml
+      - biopython==1.84
+      - ANARCI==2026.2.13.2
+      - pyyaml==6.0.2
+      - tqdm==4.66.4
+      - py3Dmol                    # inline structure view in the custom notebook only

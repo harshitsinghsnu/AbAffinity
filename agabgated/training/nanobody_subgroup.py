@@ -1,6 +1,6 @@
 import os,pandas as pd,numpy as np
 from scipy.stats import pearsonr,spearmanr
-HERE=os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+HERE=os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 OUT=os.path.join(HERE,'experiments','results_allcdr_stats')
 d=pd.read_csv(os.path.join(HERE,'results_saaintdb_allcdr/random/all_preds.csv'))
 def valid(s): 

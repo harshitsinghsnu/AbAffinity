@@ -169,10 +169,10 @@ def main():
     }
 
     datasets = {
-        'sabdab':  ('datasets/pairs_sabdab.csv',  'datasets/esm2_embeddings_natural_650M.pkl'),
-        'abbind':  ('datasets/pairs_abbind.csv',  'datasets/esm2_embeddings_mutation_650M.pkl'),
-        'skempi':  ('datasets/pairs_skempi.csv',  'datasets/esm2_embeddings_mutation_650M.pkl'),
-        'bench':   ('datasets/pairs_benchmark.csv','datasets/esm2_embeddings_natural_650M.pkl')
+        'sabdab':  ('data/pairs_sabdab.csv',  'data/esm2_embeddings_natural_650M.pkl'),
+        'abbind':  ('data/pairs_abbind.csv',  'data/esm2_embeddings_mutation_650M.pkl'),
+        'skempi':  ('data/pairs_skempi.csv',  'data/esm2_embeddings_mutation_650M.pkl'),
+        'bench':   ('data/pairs_benchmark.csv','data/esm2_embeddings_natural_650M.pkl')
     }
 
     # 1. 10-Fold CV

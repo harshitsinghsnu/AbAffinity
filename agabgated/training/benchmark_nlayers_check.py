@@ -8,7 +8,7 @@ Outputs -> experiments/results_allcdr_stats/benchmark_nlayers.csv
 """
 import os, sys, pickle
 import numpy as np, pandas as pd
-HERE=os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+HERE=os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 sys.path.insert(0,HERE); sys.path.insert(0,os.path.join(HERE,'experiments'))
 from agabgated.training import run_multiseed as R
 from agabgated.utils.main_symmetric_mean import load_data
@@ -17,10 +17,10 @@ OUT=os.path.join(HERE,'experiments','results_allcdr_stats'); os.makedirs(OUT,exi
 class DL:
     def __init__(s,d): s.embeddings=d; s.embedding_dim=next(iter(d.values())).shape[0]
     def get_embedding(s,k): return s.embeddings[k]
-emb=pickle.load(open(os.path.join(HERE,'experiments/cache/allcdr_natural_650M.pkl'),'rb'))
+emb=pickle.load(open(os.path.join(HERE,'data/allcdr_natural_650M.pkl'),'rb'))
 loader=DL(emb)
-df_tr=load_data(os.path.join(HERE,'datasets/pairs_sabdab.csv'))
-df_b =load_data(os.path.join(HERE,'datasets/pairs_benchmark.csv'))
+df_tr=load_data(os.path.join(HERE,'data/pairs_sabdab.csv'))
+df_b =load_data(os.path.join(HERE,'data/pairs_benchmark.csv'))
 
 # base hyperparams (same as benchmark experiment), only n_layers varies
 base_hp=dict(projected_size=256,num_heads=8,dropout=0.1,batch_size=32,epochs=50,

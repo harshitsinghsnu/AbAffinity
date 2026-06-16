@@ -25,15 +25,15 @@ import numpy as np, pandas as pd, torch, yaml
 from torch.utils.data import DataLoader
 from scipy.stats import pearsonr, spearmanr
 
-HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+HERE = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 sys.path.insert(0, HERE)
 from agabgated.models.mutual_strong_saaintdb import load_saaintdb, get_fold_splits, _train_fold
 from agabgated.utils.main_symmetric_mean import CachedEmbeddingDataset, collate_fn, DEFAULT_CONFIG, setup_reproducibility
 
 DEVICE = 'cuda' if torch.cuda.is_available() else 'cpu'
-EXP = os.path.join(HERE, 'experiments')
-RES = os.path.join(EXP, 'results_saaintdb'); os.makedirs(RES, exist_ok=True)
-CSV = os.path.join(HERE, 'datasets/saaintdb_with_antigen_names.csv')
+CFGDIR = os.path.join(HERE, 'configs', 'saaintdb')
+RES = os.path.join(HERE, 'results', 'results_saaintdb'); os.makedirs(RES, exist_ok=True)
+CSV = os.path.join(HERE, 'data/saaintdb_with_antigen_names.csv')
 
 class DictLoader:
     def __init__(s, d): s.embeddings=d; s.embedding_dim=next(iter(d.values())).shape[0]
@@ -42,12 +42,12 @@ class DictLoader:
 _CACHE = {}
 def get_loader(pooling):
     if pooling in _CACHE: return _CACHE[pooling]
-    with open(os.path.join(HERE,'datasets/esm2_embeddings_saaintdb_650M.pkl'),'rb') as f:
+    with open(os.path.join(HERE,'data/esm2_embeddings_saaintdb_650M.pkl'),'rb') as f:
         mean = pickle.load(f)
     if pooling == 'meanpool':
         loader = DictLoader(dict(mean))
     else:  # allcdr: overwrite heavy ids with CDR-pooled heavy
-        with open(os.path.join(HERE,'results_saaintdb_allcdr/saaintdb_heavy_cdr_embeddings.pkl'),'rb') as f:
+        with open(os.path.join(HERE,'data/saaintdb_heavy_cdr_embeddings.pkl'),'rb') as f:
             cdr = pickle.load(f)
         comb = dict(mean); comb.update(cdr)
         loader = DictLoader(comb)
@@ -111,7 +111,7 @@ def main():
     ap.add_argument('--seeds',type=int,nargs='+',default=[42,114,144]); a=ap.parse_args()
     base={'hyperparams':{'epochs':50,'patience':10,'batch_size':32,'learning_rate':1e-4,'weight_decay':0.01,
           'projected_size':256,'num_heads':8,'dropout':0.1,'n_layers':2}}
-    cfgs=(sorted(glob.glob(os.path.join(EXP,'configs_saaintdb','*.yaml'))) if a.all else [a.config])
+    cfgs=(sorted(glob.glob(os.path.join(CFGDIR,'*.yaml'))) if a.all else [a.config])
     aggs=[run_experiment(resolve(c,base),a.seeds) for c in cfgs]
     master=pd.concat(aggs,ignore_index=True)
     master.to_csv(os.path.join(RES,'MASTER_SUMMARY_SAAINTDB.csv'),index=False)

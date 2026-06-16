@@ -9,22 +9,22 @@ import os, sys, pickle
 import numpy as np, pandas as pd, torch
 from torch.utils.data import DataLoader
 from scipy.stats import pearsonr, spearmanr
-HERE=os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+HERE=os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 sys.path.insert(0,HERE)
 from agabgated.models.mutual_strong_saaintdb import get_fold_splits, _train_fold
 from agabgated.utils.main_symmetric_mean import load_data, CachedEmbeddingDataset, collate_fn, DEFAULT_CONFIG, setup_reproducibility
 DEVICE='cuda' if torch.cuda.is_available() else 'cpu'
 OUT=os.path.join(HERE,'experiments','results_allcdr_stats'); os.makedirs(OUT,exist_ok=True)
-DS={'sabdab':('datasets/pairs_sabdab.csv','natural'),
-    'abbind':('datasets/pairs_abbind.csv','mutation'),
-    'skempi':('datasets/pairs_skempi.csv','mutation')}
+DS={'sabdab':('data/pairs_sabdab.csv','natural'),
+    'abbind':('data/pairs_abbind.csv','mutation'),
+    'skempi':('data/pairs_skempi.csv','mutation')}
 class DL:
     def __init__(s,d): s.embeddings=d; s.embedding_dim=next(iter(d.values())).shape[0]
     def get_embedding(s,k): return s.embeddings[k]
 _cache={}
 def loader(fam):
     if fam in _cache: return _cache[fam]
-    with open(os.path.join(HERE,f'experiments/cache/allcdr_{fam}_650M.pkl'),'rb') as f: d=pickle.load(f)
+    with open(os.path.join(HERE,f'data/allcdr_{fam}_650M.pkl'),'rb') as f: d=pickle.load(f)
     _cache[fam]=DL(d); return _cache[fam]
 
 for ds,(csv,fam) in DS.items():

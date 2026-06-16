@@ -168,7 +168,7 @@ def compute_cdr_embeddings_saaintdb(id_to_seq, device, batch_size=8,
 # Load SAaIntDB
 # ─────────────────────────────────────────────────────────────────────────────
 print("\n[1] Loading SAaIntDB...")
-csv_path = os.path.join(HERE, 'datasets/saaintdb_with_antigen_names.csv')
+csv_path = os.path.join(HERE, 'data/saaintdb_with_antigen_names.csv')
 df_full  = load_saaintdb(csv_path)
 
 # Build id→seq mapping for heavy chains only (CDR-aware)
@@ -184,7 +184,7 @@ heavy_cdr_emb = compute_cdr_embeddings_saaintdb(
 
 # Load existing mean-pool embeddings for light and antigen
 print("\n[3] Loading mean-pool embeddings for light/antigen...")
-with open(os.path.join(HERE, 'datasets/esm2_embeddings_saaintdb_650M.pkl'), 'rb') as f:
+with open(os.path.join(HERE, 'data/esm2_embeddings_saaintdb_650M.pkl'), 'rb') as f:
     mean_emb = pickle.load(f)
 
 # Build combined embedding dict: CDR-aware heavy + mean-pool light/antigen

@@ -106,8 +106,8 @@ def compute_embeddings_dedup(id_to_seq, model, tokenizer, device, batch_size):
 # ---------------------------------------------------------------------------
 
 def precompute_saaintdb_embeddings(
-    csv_path:    str = 'datasets/saaintdb_with_antigen_names.csv',
-    output_path: str = 'datasets/esm2_embeddings_saaintdb_650M.pkl',
+    csv_path:    str = 'data/saaintdb_with_antigen_names.csv',
+    output_path: str = 'data/esm2_embeddings_saaintdb_650M.pkl',
     device:      str = 'cuda',
     batch_size:  int = 8,
     model_name:  str = 'facebook/esm2_t33_650M_UR50D',
@@ -207,8 +207,8 @@ def precompute_saaintdb_embeddings(
 # ---------------------------------------------------------------------------
 
 def verify_cache(
-    csv_path:    str = 'datasets/saaintdb_with_antigen_names.csv',
-    cache_path:  str = 'datasets/esm2_embeddings_saaintdb_650M.pkl',
+    csv_path:    str = 'data/saaintdb_with_antigen_names.csv',
+    cache_path:  str = 'data/esm2_embeddings_saaintdb_650M.pkl',
 ):
     df = pd.read_csv(csv_path)
 
@@ -254,8 +254,8 @@ def verify_cache(
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(
         description='Precompute ESM-2 embeddings for SAaIntDB')
-    parser.add_argument('--csv',        default='datasets/saaintdb_with_antigen_names.csv')
-    parser.add_argument('--output',     default='datasets/esm2_embeddings_saaintdb_650M.pkl')
+    parser.add_argument('--csv',        default='data/saaintdb_with_antigen_names.csv')
+    parser.add_argument('--output',     default='data/esm2_embeddings_saaintdb_650M.pkl')
     parser.add_argument('--device',     default='cuda')
     parser.add_argument('--batch_size', type=int, default=8)
     parser.add_argument('--model',      default='facebook/esm2_t33_650M_UR50D')

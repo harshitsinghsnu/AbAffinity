@@ -16,19 +16,19 @@ defaults:
 
 # Dataset -> (pairs_csv, embedding family) registry
 datasets:
-  sabdab:    {pairs: datasets/pairs_sabdab.csv,    family: natural}
-  abbind:    {pairs: datasets/pairs_abbind.csv,    family: mutation}
-  skempi:    {pairs: datasets/pairs_skempi.csv,    family: mutation}
-  benchmark: {pairs: datasets/pairs_benchmark.csv, family: natural}
+  sabdab:    {pairs: data/pairs_sabdab.csv,    family: natural}
+  abbind:    {pairs: data/pairs_abbind.csv,    family: mutation}
+  skempi:    {pairs: data/pairs_skempi.csv,    family: mutation}
+  benchmark: {pairs: data/pairs_benchmark.csv, family: natural}
 
 # Embedding family -> file, per pooling mode
 embeddings:
   meanpool:
-    natural:  datasets/esm2_embeddings_natural_650M.pkl
-    mutation: datasets/esm2_embeddings_mutation_650M.pkl
+    natural:  data/esm2_embeddings_natural_650M.pkl
+    mutation: data/esm2_embeddings_mutation_650M.pkl
   allcdr:
-    natural:  experiments/cache/allcdr_natural_650M.pkl
-    mutation: experiments/cache/allcdr_mutation_650M.pkl
+    natural:  data/allcdr_natural_650M.pkl
+    mutation: data/allcdr_mutation_650M.pkl
   allcdrboth:
-    natural:  experiments/cache/allcdrboth_natural_650M.pkl
-    mutation: experiments/cache/allcdrboth_mutation_650M.pkl
+    natural:  data/allcdrboth_natural_650M.pkl
+    mutation: data/allcdrboth_mutation_650M.pkl

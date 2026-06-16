@@ -14,8 +14,8 @@ Outputs -> experiments/results_explainability/
 """
 import os, sys, re
 import numpy as np, pandas as pd, torch
-sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
+HERE = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from agabgated.explain import integrated_gradients_explainability_saaintdb as ig3
 from agabgated.explain import integrated_gradient_twostream as ig2
 from agabgated.models.two_stream_mutualstrong import ConcatTwoStream
@@ -54,7 +54,7 @@ def two_load(path):
     return m, ck.get('pkd_bounds',(5.0,12.0))
 
 print("Loading models + ESM-2...")
-m3,b3=ig3.load_model("results_saaintdb_allcdr/random/fold_01/model.pt")  # FINAL All-CDR model
+m3,b3=ig3.load_model("model_weights/saaintdb_allcdr_random_bestfold.pt")  # FINAL All-CDR model (random best fold)
 w3=ig3.MutualTriStreamPerResidue(m3,b3).to(DEVICE).eval()
 m2,b2=two_load("results_twostream_saaintdb/fold_01/model.pt")
 w2=ig2.TwoStreamPerResidue(m2,b2).to(DEVICE).eval()

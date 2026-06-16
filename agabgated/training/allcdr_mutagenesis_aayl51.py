@@ -12,18 +12,18 @@ import os, sys, pickle
 import numpy as np, pandas as pd, torch
 from torch.utils.data import Dataset, DataLoader
 from scipy.stats import pearsonr, spearmanr
-HERE=os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+HERE=os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 sys.path.insert(0,HERE)
 from agabgated.models.mutual_strong import MutualTriStreamStrong
 DEVICE='cuda' if torch.cuda.is_available() else 'cpu'
 ADV=os.path.join(HERE,'advanced_results')
 
-df=pd.read_csv(os.path.join(HERE,'datasets/formatted_aayl51_benchmarking_data.csv'))
+df=pd.read_csv(os.path.join(HERE,'data/formatted_aayl51_benchmarking_data.csv'))
 df['pKD']=df['Y'].astype(float)
 df['heavy_id']=[f'aayl51_H_{i:05d}' for i in range(len(df))]
 df['light_id']='aayl51_L_00000'; df['antigen_id']='aayl51_Ag_00000'
 with open(os.path.join(ADV,'aayl51_allcdr_embeddings.pkl'),'rb') as f: cdr=pickle.load(f)
-with open(os.path.join(HERE,'datasets/zf_embeddings/aayl51_embeddings.pkl'),'rb') as f: raw=pickle.load(f)
+with open(os.path.join(HERE,'data/zf_embeddings/aayl51_embeddings.pkl'),'rb') as f: raw=pickle.load(f)
 emb={f'aayl51_H_{i:05d}':cdr[df.iloc[i]['heavy']] for i in range(len(df))}
 emb['aayl51_L_00000']=raw['light'][0]; emb['aayl51_Ag_00000']=raw['antigen'][0]
 

@@ -804,18 +804,18 @@ def main():
     # Dataset configurations – adjust paths to your two‑stream cache files
     dataset_configs = {
         'sabdab': {
-            'csv': 'datasets/pairs_sabdab.csv',
-            'cache': 'datasets/esm2_embeddings_twostream_natural_650M.pkl',
+            'csv': 'data/pairs_sabdab.csv',
+            'cache': 'data/esm2_embeddings_twostream_natural_650M.pkl',
             'n_folds': 10,
         },
         'abbind': {
-            'csv': 'datasets/pairs_abbind.csv',
-            'cache': 'datasets/esm2_embeddings_twostream_abbind_650M.pkl',
+            'csv': 'data/pairs_abbind.csv',
+            'cache': 'data/esm2_embeddings_twostream_abbind_650M.pkl',
             'n_folds': 10,
         },
         'skempi': {
-            'csv': 'datasets/pairs_skempi.csv',
-            'cache': 'datasets/esm2_embeddings_twostream_skempi_650M.pkl',
+            'csv': 'data/pairs_skempi.csv',
+            'cache': 'data/esm2_embeddings_twostream_skempi_650M.pkl',
             'n_folds': 10,
         },
     }
@@ -859,16 +859,16 @@ def main():
     print("#"*70)
 
     # You must generate these two caches separately:
-    #   python precompute_embeddings_twostream.py --csv datasets/pairs_sabdab.csv --fasta datasets/seq_natural.fasta --output datasets/esm2_embeddings_twostream_sabdab_650M.pkl
-    #   python precompute_embeddings_twostream.py --csv datasets/pairs_benchmark.csv --fasta datasets/seq_natural.fasta --output datasets/esm2_embeddings_twostream_benchmark_650M.pkl
-    train_cache = 'datasets/esm2_embeddings_twostream_sabdab_650M.pkl'
-    test_cache = 'datasets/esm2_embeddings_twostream_benchmark_650M.pkl'
+    #   python precompute_embeddings_twostream.py --csv data/pairs_sabdab.csv --fasta data/seq_natural.fasta --output data/esm2_embeddings_twostream_sabdab_650M.pkl
+    #   python precompute_embeddings_twostream.py --csv data/pairs_benchmark.csv --fasta data/seq_natural.fasta --output data/esm2_embeddings_twostream_benchmark_650M.pkl
+    train_cache = 'data/esm2_embeddings_twostream_sabdab_650M.pkl'
+    test_cache = 'data/esm2_embeddings_twostream_benchmark_650M.pkl'
 
     if os.path.exists(train_cache) and os.path.exists(test_cache):
         try:
             bench_summary = run_benchmark_multiple_seeds_twostream(
-                sabdab_csv='datasets/pairs_sabdab.csv',
-                benchmark_csv='datasets/pairs_benchmark.csv',
+                sabdab_csv='data/pairs_sabdab.csv',
+                benchmark_csv='data/pairs_benchmark.csv',
                 train_cache_file=train_cache,
                 test_cache_file=test_cache,
                 config=config,

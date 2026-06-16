@@ -24,7 +24,7 @@ import yaml
 from torch.utils.data import DataLoader
 from scipy.stats import pearsonr, spearmanr
 
-HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))  # 3_stream/
+HERE = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))  # 3_stream/
 sys.path.insert(0, HERE)
 from agabgated.models.mutual_strong import MutualTriStreamStrong, train_epoch, evaluate
 from agabgated.models.mutual_strong_saaintdb import _train_fold, get_fold_splits
@@ -32,12 +32,12 @@ from agabgated.utils.main_symmetric_mean import (load_data, CachedEmbeddingDatas
                                  DEFAULT_CONFIG, setup_reproducibility)
 
 DEVICE = 'cuda' if torch.cuda.is_available() else 'cpu'
-EXP_DIR = os.path.join(HERE, 'experiments')
-RES_DIR = os.path.join(EXP_DIR, 'results')
+CFG_DIR = os.path.join(HERE, 'configs', 'benchmark')
+RES_DIR = os.path.join(HERE, 'results')
 
 # ── config loading ───────────────────────────────────────────────────────────
 def load_base():
-    with open(os.path.join(EXP_DIR, 'configs', 'base.yaml')) as f:
+    with open(os.path.join(CFG_DIR, 'base.yaml')) as f:
         return yaml.safe_load(f)
 
 def resolve(cfg_path, base, seeds_override=None):
@@ -198,7 +198,7 @@ def main():
     ap.add_argument('--seeds', type=int, nargs='+', default=None)
     args = ap.parse_args()
     base = load_base()
-    cfgs = (sorted(glob.glob(os.path.join(EXP_DIR, 'configs', 'exp*.yaml')))
+    cfgs = (sorted(glob.glob(os.path.join(CFG_DIR, 'exp*.yaml')))
             if args.all else [args.config])
     all_agg = []
     for cp in cfgs:

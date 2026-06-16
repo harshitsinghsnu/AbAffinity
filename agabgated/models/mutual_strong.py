@@ -564,9 +564,9 @@ if __name__ == "__main__":
         cross_validate(df, loader, config, n_folds=ds['n_folds'], output_dir=output_dir, dataset_name=args.dataset)
     elif args.mode == 'benchmark':
         bench_summary = run_benchmark_multiple_seeds(
-            sabdab_csv='datasets/pairs_sabdab.csv',
-            benchmark_csv='datasets/pairs_benchmark.csv',
-            cache_file='datasets/esm2_embeddings_natural_650M.pkl',
+            sabdab_csv='data/pairs_sabdab.csv',
+            benchmark_csv='data/pairs_benchmark.csv',
+            cache_file='data/esm2_embeddings_natural_650M.pkl',
             config=config,
             seeds=args.seeds,
             output_dir='results_mutual_strong/benchmark'
@@ -574,9 +574,9 @@ if __name__ == "__main__":
         print("\nBenchmark summary:", bench_summary)
     else:  # 'all'
         dataset_configs = {
-            'sabdab': {'csv': 'datasets/pairs_sabdab.csv', 'cache': 'datasets/esm2_embeddings_natural_650M.pkl', 'n_folds': 10},
-            'abbind': {'csv': 'datasets/pairs_abbind.csv', 'cache': 'datasets/esm2_embeddings_mutation_650M.pkl', 'n_folds': 10},
-            'skempi': {'csv': 'datasets/pairs_skempi.csv', 'cache': 'datasets/esm2_embeddings_mutation_650M.pkl', 'n_folds': 10},
+            'sabdab': {'csv': 'data/pairs_sabdab.csv', 'cache': 'data/esm2_embeddings_natural_650M.pkl', 'n_folds': 10},
+            'abbind': {'csv': 'data/pairs_abbind.csv', 'cache': 'data/esm2_embeddings_mutation_650M.pkl', 'n_folds': 10},
+            'skempi': {'csv': 'data/pairs_skempi.csv', 'cache': 'data/esm2_embeddings_mutation_650M.pkl', 'n_folds': 10},
         }
         for name, ds in dataset_configs.items():
             print(f"\n{'#'*70}\n# CV: {name.upper()} (MutualStrong)\n{'#'*70}")
@@ -586,9 +586,9 @@ if __name__ == "__main__":
             output_dir = f"results_mutual_strong/cv_{name}"
             cross_validate(df, loader, config, n_folds=ds['n_folds'], output_dir=output_dir, dataset_name=name)
         bench_summary = run_benchmark_multiple_seeds(
-            sabdab_csv='datasets/pairs_sabdab.csv',
-            benchmark_csv='datasets/pairs_benchmark.csv',
-            cache_file='datasets/esm2_embeddings_natural_650M.pkl',
+            sabdab_csv='data/pairs_sabdab.csv',
+            benchmark_csv='data/pairs_benchmark.csv',
+            cache_file='data/esm2_embeddings_natural_650M.pkl',
             config=config,
             seeds=args.seeds,
             output_dir='results_mutual_strong/benchmark'

@@ -11,7 +11,7 @@ import numpy as np, pandas as pd, torch
 from torch.utils.data import DataLoader
 from scipy.stats import pearsonr, spearmanr
 from transformers import EsmTokenizer, EsmModel
-HERE=os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+HERE=os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 sys.path.insert(0,HERE)
 from agabgated.models.mutual_strong_saaintdb import load_saaintdb, get_fold_splits, _train_fold
 from agabgated.utils.main_symmetric_mean import CachedEmbeddingDataset, collate_fn, DEFAULT_CONFIG, setup_reproducibility
@@ -35,7 +35,7 @@ def cdr_idx(seq):
     m=re.search(r'C[A-Z]{2,5}[SAGTV]([A-Z]{8,15})W[VFY]RQ',seq);o+=list(range(*m.span(1))) if m else list(range(26,36))
     return sorted(set(o)) if o else list(range(26,36))
 
-df=load_saaintdb(os.path.join(HERE,'datasets/saaintdb_with_antigen_names.csv'))
+df=load_saaintdb(os.path.join(HERE,'data/saaintdb_with_antigen_names.csv'))
 # light_id -> sequence map
 lid2seq={}
 for _,r in df.iterrows():
@@ -64,8 +64,8 @@ else:
     print(f"computed {len(light_cdr)} light-CDR embeddings")
 
 # combined: mean baseline + heavy CDR + light CDR
-with open(os.path.join(HERE,'datasets/esm2_embeddings_saaintdb_650M.pkl'),'rb') as f: mean=pickle.load(f)
-with open(os.path.join(HERE,'results_saaintdb_allcdr/saaintdb_heavy_cdr_embeddings.pkl'),'rb') as f: hcdr=pickle.load(f)
+with open(os.path.join(HERE,'data/esm2_embeddings_saaintdb_650M.pkl'),'rb') as f: mean=pickle.load(f)
+with open(os.path.join(HERE,'data/saaintdb_heavy_cdr_embeddings.pkl'),'rb') as f: hcdr=pickle.load(f)
 emb=dict(mean); emb.update(hcdr); emb.update(light_cdr)
 class DL:
     def __init__(s,d): s.embeddings=d; s.embedding_dim=next(iter(d.values())).shape[0]

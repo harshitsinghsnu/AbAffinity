@@ -10,7 +10,7 @@ Outputs -> experiments/results_allcdr_stats/gate_importance_saaintdb.npz
 import os, sys, pickle
 import numpy as np, torch
 from torch.utils.data import DataLoader
-HERE=os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+HERE=os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 sys.path.insert(0,HERE)
 from agabgated.explain import integrated_gradients_explainability_saaintdb as ig3
 from agabgated.models.mutual_strong_saaintdb import load_saaintdb
@@ -19,18 +19,18 @@ DEVICE=ig3.DEVICE
 OUT=os.path.join(HERE,'experiments','results_allcdr_stats'); os.makedirs(OUT,exist_ok=True)
 
 # final All-CDR model (same weights used for explainability)
-model,bounds=ig3.load_model("results_saaintdb_allcdr/random/fold_01/model.pt")
+model,bounds=ig3.load_model("model_weights/saaintdb_allcdr_random_bestfold.pt")
 model=model.to(DEVICE).eval()
 
 # All-CDR embeddings
-with open(os.path.join(HERE,'datasets/esm2_embeddings_saaintdb_650M.pkl'),'rb') as f: mean=pickle.load(f)
-with open(os.path.join(HERE,'results_saaintdb_allcdr/saaintdb_heavy_cdr_embeddings.pkl'),'rb') as f: cdr=pickle.load(f)
+with open(os.path.join(HERE,'data/esm2_embeddings_saaintdb_650M.pkl'),'rb') as f: mean=pickle.load(f)
+with open(os.path.join(HERE,'data/saaintdb_heavy_cdr_embeddings.pkl'),'rb') as f: cdr=pickle.load(f)
 emb=dict(mean); emb.update(cdr)
 class DL:
     def __init__(s,d): s.embeddings=d; s.embedding_dim=next(iter(d.values())).shape[0]
     def get_embedding(s,k): return s.embeddings[k]
 loader=DL(emb)
-df=load_saaintdb(os.path.join(HERE,'datasets/saaintdb_with_antigen_names.csv'))
+df=load_saaintdb(os.path.join(HERE,'data/saaintdb_with_antigen_names.csv'))
 idc=['heavy_id','light_id','antigen_id']
 df=df[df[idc].apply(lambda c:c.isin(emb)).all(axis=1)].reset_index(drop=True)
 

@@ -28,8 +28,8 @@ from agabgated.utils.main_symmetric_mean import cosine_to_affinity
 # =============================================================================
 
 DEVICE     = 'cuda' if torch.cuda.is_available() else 'cpu'
-MODEL_PATH = "results_mutual_strong_saaintdb/fold_05/model.pt"
-CSV_PATH   = "datasets/saaintdb_with_antigen_names.csv"
+MODEL_PATH = "model_weights/saaintdb_allcdr_random_bestfold.pt"
+CSV_PATH   = "data/saaintdb_with_antigen_names.csv"
 ESM2_MODEL = "facebook/esm2_t33_650M_UR50D"
 IG_STEPS   = 50
 OUTPUT_DIR = "results_mutual_strong_saaintdb/ig_attribution"

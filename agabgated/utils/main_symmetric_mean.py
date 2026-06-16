@@ -709,9 +709,9 @@ def cross_validate(df, embedding_loader, config, n_folds=10,
 # ==============================================================================
 
 def train_on_sabdab_test_on_benchmark(
-    sabdab_csv    = 'datasets/pairs_sabdab.csv',
-    benchmark_csv = 'datasets/pairs_benchmark.csv',
-    cache_file    = 'datasets/esm2_embeddings_natural_650M.pkl',
+    sabdab_csv    = 'data/pairs_sabdab.csv',
+    benchmark_csv = 'data/pairs_benchmark.csv',
+    cache_file    = 'data/esm2_embeddings_natural_650M.pkl',
     config        = None,
     model_name    = 'symmetric_mean',
     save_model    = True,
@@ -914,18 +914,18 @@ DEFAULT_CONFIG = {
 
 DATASET_CONFIGS = {
     'sabdab': {
-        'pairs_csv':  'datasets/pairs_sabdab.csv',
-        'cache_file': 'datasets/esm2_embeddings_natural_650M.pkl',
+        'pairs_csv':  'data/pairs_sabdab.csv',
+        'cache_file': 'data/esm2_embeddings_natural_650M.pkl',
         'n_folds':    10,
     },
     'abbind': {
-        'pairs_csv':  'datasets/pairs_abbind.csv',
-        'cache_file': 'datasets/esm2_embeddings_mutation_650M.pkl',
+        'pairs_csv':  'data/pairs_abbind.csv',
+        'cache_file': 'data/esm2_embeddings_mutation_650M.pkl',
         'n_folds':    10,
     },
     'skempi': {
-        'pairs_csv':  'datasets/pairs_skempi.csv',
-        'cache_file': 'datasets/esm2_embeddings_mutation_650M.pkl',
+        'pairs_csv':  'data/pairs_skempi.csv',
+        'cache_file': 'data/esm2_embeddings_mutation_650M.pkl',
         'n_folds':    10,
     },
 }
@@ -983,9 +983,9 @@ def run_all_cv(model_name='symmetric_mean', config=None, save_models=False):
 def run_benchmark(model_name='symmetric_mean', config=None):
     if config is None: config = DEFAULT_CONFIG.copy()
     return train_on_sabdab_test_on_benchmark(
-        sabdab_csv='datasets/pairs_sabdab.csv',
-        benchmark_csv='datasets/pairs_benchmark.csv',
-        cache_file='datasets/esm2_embeddings_natural_650M.pkl',
+        sabdab_csv='data/pairs_sabdab.csv',
+        benchmark_csv='data/pairs_benchmark.csv',
+        cache_file='data/esm2_embeddings_natural_650M.pkl',
         config=config, model_name=model_name, save_model=True,
         model_path=f'models/balm_{model_name}_final.pt',
         output_dir='results/benchmark'
