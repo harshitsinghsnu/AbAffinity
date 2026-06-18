@@ -2,7 +2,7 @@
 # SKEMPI / benchmark) experiments. Pin these for bit-identical results.
 #
 #   conda env create -f environment.yml
-#   conda activate agabgated
+#   conda activate AbAffinity
 #   pip install -e .
 #
 # torch is the CUDA 12.1 build; install it from the matching index:
@@ -15,7 +15,7 @@
 # failed"). The prebuilt embedding caches shipped in data/ were generated under this
 # exact configuration, so loading them reproduces the reported numbers without
 # re-running ANARCI.
-name: agabgated
+name: AbAffinity
 channels: [conda-forge, defaults]
 dependencies:
   - python=3.10.20

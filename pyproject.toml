@@ -3,7 +3,7 @@ requires = ["setuptools>=64"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "agabgated"
+name = "AbAffinity"
 version = "1.0.0"
 description = "Gated tri-stream antibody-antigen binding-affinity prediction from sequence"
 readme = "README.md"
@@ -16,4 +16,4 @@ dependencies = [
 ]
 
 [tool.setuptools.packages.find]
-include = ["agabgated*"]
+include = ["AbAffinity*"]
