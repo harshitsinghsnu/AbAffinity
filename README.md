@@ -129,3 +129,4 @@ Default seeds `42 114 144 314 777`; results → `results/<name>/aggregated_summa
 
 All pair tables and the custom-notebook CSV use four columns: `light`, `heavy`, `antigen`, `Y`
 (affinity in pK_d). 
+ 
