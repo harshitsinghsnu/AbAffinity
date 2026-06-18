@@ -1,2 +1,2 @@
-*.ipynb_checkpoints/* linguist-documentation=true
-notebooks/.ipynb_checkpoints/* linguist-documentation=true
+*.ipynb_checkpoints/* linguist-detectable=false
+notebooks/.ipynb_checkpoints/* linguist-detectable=false
