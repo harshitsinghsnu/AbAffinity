@@ -27,14 +27,14 @@ light and antigen sequences. Frozen **ESM-2 (650M)** embeddings are pooled (heav
 heavy↔light **fusion gate** and a **gated cross-attention** interaction, and read out by a bounded
 **cosine** head. One model spans conventional paired antibodies and single-domain nanobodies.
 
-![AbAffinity architecture](architecture.png)
+![AbAffinity architecture](AbAffinityarchitecture.png)
 
 
 
 ## Repository layout
 
 ```
-AgAbAffinity/
+AbAffinity/
 ├── AbAffinity/                # the importable Python package
 │   ├── models/               # MutualTriStreamStrong (final) + variants
 │   ├── utils/                # data loading, metrics, training loops
