@@ -111,8 +111,7 @@ python -m AbAffinity.training.run_multiseed --config configs/benchmark/exp04_our
 # Or every benchmark config at once:
 python -m AbAffinity.training.run_multiseed --all
 ```
-Default seeds `42 114 144 314 777`; results → `results/<name>/aggregated_summary.csv` +
-`results/MASTER_SUMMARY.csv`.
+
 
 > **Rebuilding caches from raw sequences** (only needed if you change the data): regenerate the
 > embeddings with `python -m AbAffinity.data_prep.precompute_embeddings_saaintdb` and
