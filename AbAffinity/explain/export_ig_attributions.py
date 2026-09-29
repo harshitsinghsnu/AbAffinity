@@ -47,7 +47,7 @@ def cdr_spans(seq):
     return out
 
 def two_load(path):
-    ck=torch.load(path,map_location=DEVICE); cfg=ck.get('config',{})
+    ck=torch.load(path,map_location=DEVICE, weights_only=False); cfg=ck.get('config',{})
     m=ConcatTwoStream(esm_dim=1280,projected_size=cfg.get('projected_size',256),num_heads=cfg.get('num_heads',8),
         dropout=0.0,n_layers=cfg.get('n_layers',2),device=DEVICE).to(DEVICE)
     m.load_state_dict(ck['model_state_dict']); m.eval()

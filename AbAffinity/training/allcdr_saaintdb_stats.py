@@ -79,7 +79,7 @@ df['heavy_id']=[f'aayl51_H_{i:05d}' for i in range(len(df))]; df['light_id']='aa
 with open(os.path.join(ADV,'aayl51_allcdr_embeddings.pkl'),'rb') as f: cdr=pickle.load(f)
 with open(os.path.join(HERE,'data/zf_embeddings/aayl51_embeddings.pkl'),'rb') as f: raw=pickle.load(f)
 emb={f'aayl51_H_{i:05d}':cdr[df.iloc[i]['heavy']] for i in range(len(df))}; emb['aayl51_L_00000']=raw['light'][0]; emb['aayl51_Ag_00000']=raw['antigen'][0]
-ck=torch.load(os.path.join(ADV,'allcdr_indomain_model.pt'),map_location=DEVICE); cfg=ck.get('config',{}); lo,hi=ck['pkd_bounds']
+ck=torch.load(os.path.join(ADV,'allcdr_indomain_model.pt', weights_only=False),map_location=DEVICE); cfg=ck.get('config',{}); lo,hi=ck['pkd_bounds']
 m=MutualTriStreamStrong(esm_dim=1280,projected_size=cfg.get('projected_size',256),num_heads=cfg.get('num_heads',8),dropout=cfg.get('dropout',0.1),n_layers=cfg.get('n_layers',2),device=DEVICE).to(DEVICE)
 m.load_state_dict(ck['model_state_dict']); m.eval()
 H=np.stack([emb[f'aayl51_H_{i:05d}'] for i in range(len(df))]).astype(np.float32)

@@ -29,7 +29,7 @@ import pandas as pd
 import torch
 import torch.nn.functional as F
 from torch.utils.data import DataLoader
-from sklearn.model_selection import KFold
+from sklearn.model_selection import KFold, train_test_split
 
 try:
     from AbAffinity.models.mutual_strong import MutualTriStreamStrong, train_epoch, evaluate
@@ -152,10 +152,20 @@ def get_fold_splits(df: pd.DataFrame, n_folds: int, seed: int,
     """
     Return a list of (tr_idx, va_idx) integer-array pairs for n_folds folds.
 
-    'random' — standard KFold on rows (rows from the same PDB may appear in
-               both train and val).
-    'cold'   — KFold is performed on unique PDB_IDs; every row belonging to a
-               PDB_ID is kept together, so no PDB overlaps between train/val.
+    'random'          — standard KFold on rows (rows from the same PDB may
+                         appear in both train and val).
+    'cold'             — KFold is performed on unique PDB_IDs; every row
+                         belonging to a PDB_ID is kept together, so no PDB
+                         overlaps between train/val (referred to as
+                         "PDB-disjoint" in the manuscript). NOTE: this alone
+                         does NOT guarantee disjoint antigens — two different
+                         PDB IDs can carry near-identical antigen sequences.
+    'antigen_cdhit90'  — KFold performed on antigen-sequence clusters at 90%
+                         identity (see data_prep/build_antigen_clusters.py);
+                         every row whose antigen falls in a given cluster is
+                         kept together, so no near-identical antigen (>=90%
+                         id.) crosses the train/val boundary.
+    'antigen_cdhit70'  — same, at 70% identity.
     """
     kfold = KFold(n_splits=n_folds, shuffle=True, random_state=seed)
 
@@ -170,6 +180,36 @@ def get_fold_splits(df: pd.DataFrame, n_folds: int, seed: int,
             splits.append((tr_row_idx, va_row_idx))
         return splits
 
+    if split_type in ('antigen_cdhit90', 'antigen_cdhit70'):
+        pct = '90' if split_type.endswith('90') else '70'
+        here = os.path.dirname(os.path.abspath(__file__))
+        clusters_path = os.path.join(here, '..', 'results', 'antigen_clusters', f'antigen_clusters_{pct}.csv')
+        clusters = pd.read_csv(clusters_path)
+        seq_to_cluster = dict(zip(clusters['Ag_seq'], clusters['cluster_id']))
+        df_cluster = df['Ag_seq'].map(seq_to_cluster)
+        if df_cluster.isna().any():
+            # Rows whose Ag_seq is NaN/missing were excluded from clustering
+            # (build_antigen_clusters.py clusters df['Ag_seq'].dropna().unique()).
+            # Give each such row its own singleton cluster rather than
+            # crashing or silently dropping it.
+            missing_mask = df_cluster.isna()
+            n_missing = int(missing_mask.sum())
+            next_id = int(clusters['cluster_id'].max()) + 1
+            singleton_ids = range(next_id, next_id + n_missing)
+            df_cluster.loc[missing_mask] = list(singleton_ids)
+            print(f"  [get_fold_splits:{split_type}] {n_missing} rows had no Ag_seq match in "
+                  f"{os.path.basename(clusters_path)} (likely NaN antigen sequence) — "
+                  f"assigned each its own singleton cluster.")
+        unique_clusters = df_cluster.unique()
+        splits = []
+        for tr_c_idx, va_c_idx in kfold.split(unique_clusters):
+            tr_clusters = set(unique_clusters[tr_c_idx])
+            va_clusters = set(unique_clusters[va_c_idx])
+            tr_row_idx = np.where(df_cluster.isin(tr_clusters))[0]
+            va_row_idx = np.where(df_cluster.isin(va_clusters))[0]
+            splits.append((tr_row_idx, va_row_idx))
+        return splits
+
     return list(kfold.split(df))   # random
 
 
@@ -178,20 +218,36 @@ def get_fold_splits(df: pd.DataFrame, n_folds: int, seed: int,
 # ---------------------------------------------------------------------------
 
 def _train_fold(df_train, df_val, embedding_loader, config, device):
-    """Train one fold; return (model, pkd_bounds)."""
-    pkd_lower = df_train['binding_affinity'].min()
-    pkd_upper = df_train['binding_affinity'].max()
+    """Train one fold; return (model, pkd_bounds).
+
+    NOTE (post-review fix): `df_val` is the outer CV test fold and is NEVER
+    seen by this function during training/early-stopping — it is only used
+    by the caller *after* this returns, for final reporting. Early stopping
+    instead uses an inner validation split carved out of `df_train` alone,
+    so checkpoint selection cannot leak information from the reported fold.
+    """
+    inner_val_frac = config.get('inner_val_frac', 0.1)
+    inner_seed = config.get('inner_val_seed', config.get('seed', 0))
+    df_train_fit, df_train_innerval = train_test_split(
+        df_train, test_size=inner_val_frac, random_state=inner_seed, shuffle=True,
+    )
+    df_train_fit = df_train_fit.reset_index(drop=True)
+    df_train_innerval = df_train_innerval.reset_index(drop=True)
+
+    pkd_lower = df_train_fit['binding_affinity'].min()
+    pkd_upper = df_train_fit['binding_affinity'].max()
     pkd_bounds = (pkd_lower, pkd_upper)
-    print(f"  Affinity range (train): [{pkd_lower:.3f}, {pkd_upper:.3f}]")
+    print(f"  Affinity range (train-fit): [{pkd_lower:.3f}, {pkd_upper:.3f}]  "
+          f"(inner-val n={len(df_train_innerval)}, held out from df_train only)")
 
     pin = (device == 'cuda')
     train_loader = DataLoader(
-        CachedEmbeddingDataset(df_train, embedding_loader),
+        CachedEmbeddingDataset(df_train_fit, embedding_loader),
         batch_size=config['batch_size'], shuffle=True,
         collate_fn=collate_fn, num_workers=0, pin_memory=pin,
     )
     val_loader = DataLoader(
-        CachedEmbeddingDataset(df_val, embedding_loader),
+        CachedEmbeddingDataset(df_train_innerval, embedding_loader),
         batch_size=config['batch_size'],
         collate_fn=collate_fn, num_workers=0, pin_memory=pin,
     )

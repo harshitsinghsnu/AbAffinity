@@ -101,7 +101,7 @@ class TwoStreamPerResidue(torch.nn.Module):
 # =============================================================================
 
 def load_model(model_path: str, device=DEVICE):
-    ckpt       = torch.load(model_path, map_location=device)
+    ckpt       = torch.load(model_path, map_location=device, weights_only=False)
     cfg        = ckpt.get('config', {})
     model      = TwoStreamSymmetric(
         esm_dim        = 1280,

@@ -35,7 +35,7 @@ class DS(Dataset):
         return (torch.tensor(s.e[r['heavy_id']]),torch.tensor(s.e[r['light_id']]),
                 torch.tensor(s.e[r['antigen_id']]),torch.tensor(float(r['pKD'])))
 
-ck=torch.load(os.path.join(ADV,'allcdr_indomain_model.pt'),map_location=DEVICE)
+ck=torch.load(os.path.join(ADV,'allcdr_indomain_model.pt', weights_only=False),map_location=DEVICE)
 cfg=ck.get('config',{}); lo,hi=ck['pkd_bounds']
 m=MutualTriStreamStrong(esm_dim=1280,projected_size=cfg.get('projected_size',256),num_heads=cfg.get('num_heads',8),
     dropout=cfg.get('dropout',0.1),n_layers=cfg.get('n_layers',2),device=DEVICE).to(DEVICE)

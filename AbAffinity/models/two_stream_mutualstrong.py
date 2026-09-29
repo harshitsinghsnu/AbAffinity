@@ -18,7 +18,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 from torch.utils.data import Dataset, DataLoader
-from sklearn.model_selection import KFold
+from sklearn.model_selection import KFold, train_test_split
 from sklearn.metrics import mean_squared_error
 from copy import deepcopy
 
@@ -500,18 +500,34 @@ def evaluate(model, loader, device, pkd_bounds, return_ids=False):
     return metrics, preds, labels
 
 def train_model_twostream(df_train, df_val, embedding_loader, config, device):
-    pkd_lower = df_train['binding_affinity'].min()
-    pkd_upper = df_train['binding_affinity'].max()
+    """Train one fold; return (model, pkd_bounds).
+
+    NOTE (post-review fix): `df_val` is the outer CV test fold and is NEVER
+    seen during training/early-stopping — it is only used by the caller
+    *after* this returns. Early stopping instead uses an inner validation
+    split carved out of `df_train` alone.
+    """
+    inner_val_frac = config.get('inner_val_frac', 0.1)
+    inner_seed = config.get('inner_val_seed', config.get('seed', 0))
+    df_train_fit, df_train_innerval = train_test_split(
+        df_train, test_size=inner_val_frac, random_state=inner_seed, shuffle=True,
+    )
+    df_train_fit = df_train_fit.reset_index(drop=True)
+    df_train_innerval = df_train_innerval.reset_index(drop=True)
+
+    pkd_lower = df_train_fit['binding_affinity'].min()
+    pkd_upper = df_train_fit['binding_affinity'].max()
     pkd_bounds = (pkd_lower, pkd_upper)
-    print(f"  Affinity range (train): [{pkd_lower:.3f}, {pkd_upper:.3f}]")
+    print(f"  Affinity range (train-fit): [{pkd_lower:.3f}, {pkd_upper:.3f}]  "
+          f"(inner-val n={len(df_train_innerval)}, held out from df_train only)")
 
     train_loader = DataLoader(
-        TwoStreamDataset(df_train, embedding_loader),
+        TwoStreamDataset(df_train_fit, embedding_loader),
         batch_size=config['batch_size'], shuffle=True, collate_fn=collate_fn,
         num_workers=0, pin_memory=(config['device'] == 'cuda')
     )
     val_loader = DataLoader(
-        TwoStreamDataset(df_val, embedding_loader),
+        TwoStreamDataset(df_train_innerval, embedding_loader),
         batch_size=config['batch_size'], collate_fn=collate_fn,
         num_workers=0, pin_memory=(config['device'] == 'cuda')
     )

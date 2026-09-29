@@ -45,7 +45,7 @@ def set_gate(model, mode):
             m.forward=mk(m,mode)
 
 def load_fold(fp):
-    ck=torch.load(fp,map_location=DEVICE); cfg=ck.get('config',{})
+    ck=torch.load(fp,map_location=DEVICE, weights_only=False); cfg=ck.get('config',{})
     m=MutualTriStreamStrong(esm_dim=1280,projected_size=cfg.get('projected_size',256),num_heads=cfg.get('num_heads',8),
         dropout=cfg.get('dropout',0.1),n_layers=cfg.get('n_layers',2),device=DEVICE).to(DEVICE)
     m.load_state_dict(ck['model_state_dict']); m.eval(); return m, ck['pkd_bounds']
@@ -66,13 +66,26 @@ def evalmodel(m,dv,bounds,gate):
     return float(pearsonr(t,p)[0]),float(spearmanr(t,p)[0]),float(np.sqrt(np.mean((t-p)**2)))
 
 # (1) SAINTdb gating, all metrics
+#
+# NOTE (post-review fix): the previous version re-created the outer folds
+# here with get_fold_splits(df, 10, 9999, 'random'), which does NOT
+# reproduce the exact row-level fold assignment the checkpoints were
+# trained on (KFold's shuffle is order-sensitive to df's exact row order
+# and any upstream filtering) -- evaluating on this mismatched split partly
+# in-sample inflated results (observed inflation from a true ~0.84 to
+# ~0.91-0.94). Each fold checkpoint is instead re-evaluated on its TRUE
+# held-out rows, defined by the `fold` column recorded in
+# results_saaintdb_allcdr/random/all_preds.csv during actual training --
+# the exact out-of-fold assignment used at fit time.
 print("[1] SAaIntDB gating ablation (all metrics)...")
 gate_modes=['learned','fixed','open','closed','random']
 folds=sorted(glob.glob(os.path.join(HERE,'results_saaintdb_allcdr/random/fold_*/model.pt')))
-splits=get_fold_splits(df,10,9999,'random'); rows=[]
-for fi,(fp,(tr,va)) in enumerate(zip(folds,splits),1):
-    dv=df.iloc[va].reset_index(drop=True)
+ap_gate=pd.read_csv(os.path.join(HERE,'results_saaintdb_allcdr/random/all_preds.csv'))
+rows=[]
+for fi,fp in enumerate(folds,1):
+    dv=ap_gate[ap_gate['fold']==fi].reset_index(drop=True)
     dv=dv[dv[idc].apply(lambda c:c.isin(emb)).all(axis=1)].reset_index(drop=True)
+    if len(dv)<2: continue
     m,b=load_fold(fp)
     for gm in gate_modes:
         r,rho,rmse=evalmodel(m,dv,b,gm)

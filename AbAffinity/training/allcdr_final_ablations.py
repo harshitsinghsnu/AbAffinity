@@ -17,6 +17,7 @@ import os, sys, pickle, types
 import numpy as np, pandas as pd, torch
 import torch.nn as nn, torch.nn.functional as F
 from torch.utils.data import Dataset, DataLoader
+from sklearn.model_selection import train_test_split
 from scipy.stats import pearsonr, spearmanr
 import warnings; warnings.filterwarnings('ignore')
 
@@ -91,11 +92,22 @@ def metrics(t,p):
     return float(pearsonr(t,p)[0]), float(spearmanr(t,p)[0]), float(np.sqrt(np.mean((t-p)**2)))
 
 def train_cosine(model, df_tr, df_va, e, kind, seed):
-    """kind in {'ours','two'} -> cosine model with bounds; returns (r,rho,rmse)."""
+    """kind in {'ours','two'} -> cosine model with bounds; returns (r,rho,rmse).
+
+    NOTE (post-review fix): `df_va` is the outer CV test fold and is NEVER
+    seen during training/early-stopping — only used by the caller after this
+    returns. Early stopping uses an inner validation split carved from
+    `df_tr` alone.
+    """
     setup_reproducibility(seed)
-    lo,hi=df_tr['binding_affinity'].min(),df_tr['binding_affinity'].max()
+    df_tr_fit, df_tr_innerval = train_test_split(
+        df_tr, test_size=0.1, random_state=seed, shuffle=True,
+    )
+    df_tr_fit = df_tr_fit.reset_index(drop=True)
+    df_tr_innerval = df_tr_innerval.reset_index(drop=True)
+    lo,hi=df_tr_fit['binding_affinity'].min(),df_tr_fit['binding_affinity'].max()
     opt=torch.optim.AdamW(model.parameters(),lr=HP['lr'],weight_decay=HP['wd'])
-    dl=DataLoader(TriDS(df_tr,e),batch_size=HP['batch_size'],shuffle=True)
+    dl=DataLoader(TriDS(df_tr_fit,e),batch_size=HP['batch_size'],shuffle=True)
     best=-np.inf; best_state=None; bad=0
     for ep in range(HP['epochs']):
         model.train()
@@ -107,7 +119,7 @@ def train_cosine(model, df_tr, df_va, e, kind, seed):
             loss=F.mse_loss(cos,tgt)
             opt.zero_grad(); loss.backward()
             torch.nn.utils.clip_grad_norm_(model.parameters(),1.0); opt.step()
-        r,_,_=eval_cosine(model,df_va,e,kind,(lo,hi))
+        r,_,_=eval_cosine(model,df_tr_innerval,e,kind,(lo,hi))
         if r>best: best=r; best_state={k:v.cpu().clone() for k,v in model.state_dict().items()}; bad=0
         else:
             bad+=1
@@ -130,8 +142,17 @@ def eval_cosine(model, df, e, kind, bounds, gate_mode=None):
     return metrics(np.array(T),np.array(P))[0], np.array(T), np.array(P)
 
 def train_concat(df_tr, df_va, e, seed):
+    """NOTE (post-review fix): `df_va` is the outer CV test fold and is NEVER
+    seen during training/early-stopping — only used for the final return
+    values after model selection. Early stopping uses an inner validation
+    split carved from `df_tr` alone."""
     setup_reproducibility(seed)
-    dim=len(vec(e,df_tr.iloc[0]['heavy_id']))*3
+    df_tr_fit, df_tr_innerval = train_test_split(
+        df_tr, test_size=0.1, random_state=seed, shuffle=True,
+    )
+    df_tr_fit = df_tr_fit.reset_index(drop=True)
+    df_tr_innerval = df_tr_innerval.reset_index(drop=True)
+    dim=len(vec(e,df_tr_fit.iloc[0]['heavy_id']))*3
     model=ConcatMLP(dim,dropout=HP['dropout']).to(DEVICE)
     opt=torch.optim.AdamW(model.parameters(),lr=HP['lr'],weight_decay=HP['wd'])
     def batches(df):
@@ -143,13 +164,13 @@ def train_concat(df_tr, df_va, e, seed):
     best=-np.inf; best_state=None; bad=0
     for ep in range(HP['epochs']):
         model.train()
-        for X,y in batches(df_tr.sample(frac=1,random_state=ep)):
+        for X,y in batches(df_tr_fit.sample(frac=1,random_state=ep)):
             if len(X)<2: continue
             opt.zero_grad(); loss=F.mse_loss(model(X),y); loss.backward(); opt.step()
-        # eval
+        # eval (inner validation only)
         model.eval(); P,T=[],[]
         with torch.no_grad():
-            for X,y in batches(df_va):
+            for X,y in batches(df_tr_innerval):
                 P.extend(model(X).cpu().numpy().tolist()); T.extend(y.cpu().numpy().tolist())
         r=metrics(np.array(T),np.array(P))[0]
         if r>best: best=r; best_state={k:v.cpu().clone() for k,v in model.state_dict().items()}; bad=0

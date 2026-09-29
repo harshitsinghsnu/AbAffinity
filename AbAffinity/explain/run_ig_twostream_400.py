@@ -8,7 +8,7 @@ plt.savefig=_sf
 from AbAffinity.explain import integrated_gradient_twostream as ig
 from AbAffinity.models.two_stream_mutualstrong import ConcatTwoStream
 def load_concat(p,device=ig.DEVICE):
-    ck=torch.load(p,map_location=device); cfg=ck.get('config',{})
+    ck=torch.load(p,map_location=device, weights_only=False); cfg=ck.get('config',{})
     m=ConcatTwoStream(esm_dim=1280,projected_size=cfg.get('projected_size',256),num_heads=cfg.get('num_heads',8),
         dropout=0.0,n_layers=cfg.get('n_layers',2),device=device).to(device)
     m.load_state_dict(ck['model_state_dict']); m.eval()

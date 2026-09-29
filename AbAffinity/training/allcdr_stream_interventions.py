@@ -27,7 +27,7 @@ df=df[df[idc].apply(lambda c:c.isin(emb)).all(axis=1)].reset_index(drop=True)
 ag_mat=np.stack([emb[a] for a in df['antigen_id'].unique()]); ag_mean=ag_mat.mean(0).astype(np.float32)
 
 def load_fold(fp):
-    ck=torch.load(fp,map_location=DEVICE); cfg=ck.get('config',{})
+    ck=torch.load(fp,map_location=DEVICE, weights_only=False); cfg=ck.get('config',{})
     m=MutualTriStreamStrong(esm_dim=1280,projected_size=cfg.get('projected_size',256),num_heads=cfg.get('num_heads',8),
         dropout=cfg.get('dropout',0.1),n_layers=cfg.get('n_layers',2),device=DEVICE).to(DEVICE)
     m.load_state_dict(ck['model_state_dict']); m.eval(); return m, ck['pkd_bounds']
