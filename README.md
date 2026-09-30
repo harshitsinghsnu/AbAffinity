@@ -8,18 +8,8 @@
 > complexes or docking models, while many sequence-based approaches collapse heavy and light chains
 > or fuse antibody and antigen information before modelling partner compatibility.
 >
-> **Results.** We introduce **AbAffinity**, a sequence-only chain-aware three-stream architecture that
-> represents heavy chain, light chain and antigen as distinct but interacting streams where protein
-> language model features are combined with heavy-chain CDR-focused pooling, heavy–light
-> self-attention, learned antibody fusion and gated antibody–antigen cross-attention, leaving only a
-> compact interaction module to be trained. On SAaIntDB complexes, AbAffinity achieves Pearson
-> r = 0.858 ± 0.006, Spearman ρ = 0.844 ± 0.009 and RMSE = 0.694 ± 0.014 under ten-fold
-> cross-validation. Ablations show that CDR pooling, heavy/light factorisation, authentic antigen
-> input and the gated interaction pathway each contribute to performance. Integrated Gradients
-> attribution recovers known paratope and epitope residues with high fidelity, providing biologically
-> grounded explainability. The model transfers effectively to external benchmarks and mutational
-> landscapes, supporting zero- and few-shot adaptation for affinity maturation when structural
-> information is incomplete or unavailable.
+> **Results.** We introduce **AbAffinity**, a sequence-only chain-aware three-stream architecture that maintains heavy chain, light chain and antigen as distinct streams. It integrates frozen ESM-2 embeddings with heavy-chain CDR-focused pooling, heavy-light self-attention, adaptive fusion and gated cross-attention, training only a compact interaction module. Under nested ten-fold cross-validation on SAAINT-DB, AbAffinity achieves Pearson
+> r = 0.838 ± 0.033, Spearman ρ = 0.828 ± 0.027 and RMSE = 0.738 ± 0.078. AbAffinity maintains meaningful performance on stricter PDB-disjoint and antigen sequence-identity splits, and held-out complexes. Evaluation on external natural-complex benchmarks further supports consistent transfer. Partner-shuffling, attribution and uncertainty analyses support partner-conditioned prediction and biologically plausible residue-level hypotheses. AbAffinity provides a lightweight, explainable sequence-first framework for antibody triage when structural information is limited or unavailable.
 
 A sequence-only model that predicts antibody–antigen binding affinity (pK_d) directly from heavy,
 light and antigen sequences. Frozen **ESM-2 (650M)** embeddings are pooled (heavy chain over its
