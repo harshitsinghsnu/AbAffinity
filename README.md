@@ -1,4 +1,4 @@
-# AbAffinity — Chain-Aware Tri-Stream Antibody–Antigen Binding-Affinity Prediction
+# AbAffinity - Chain-Aware Tri-Stream Antibody-Antigen Binding-Affinity Prediction
 
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/harshitsinghsnu/AgAbAffinity/blob/main/notebooks/AgAbGated_Custom_ZeroShot_FewShot_IG.ipynb)
 
